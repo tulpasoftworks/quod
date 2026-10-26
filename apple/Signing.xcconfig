@@ -1,0 +1,3 @@
+// The development team, kept out of the repository: apple/Local.xcconfig (not committed) holds one line,
+// DEVELOPMENT_TEAM = <your team ID>. Without it the build has no team.
+#include? "Local.xcconfig"

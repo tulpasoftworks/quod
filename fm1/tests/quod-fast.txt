@@ -1,0 +1,8 @@
+# viscosity 0 (fastest), C4 then G4 at 3 s
+10 midi 0xBF 30 0
+11 midi 0xBF 100 16
+12 midi 0xBF 101 0
+13 midi 0xBF 34 127
+14 midi 0x90 60 100
+3000 midi 0x90 67 100
+5000 end

@@ -1,0 +1,38 @@
+# Knob acceleration on the FX page: DELAY TIME (encoder 1, default 76) down 10 detents slowly (one every 150 ms:
+# one step each, 66), then up 20 quickly (one every 15 ms: ~3x, to the top, 100); the value shows at the top.
+14 midi 0x90 60 100
+2000 btn 2
+2100 up 2
+2500 enc 1 -1
+2650 enc 1 -1
+2800 enc 1 -1
+2950 enc 1 -1
+3100 enc 1 -1
+3250 enc 1 -1
+3400 enc 1 -1
+3550 enc 1 -1
+3700 enc 1 -1
+3850 enc 1 -1
+4050 shot
+4400 enc 1 1
+4415 enc 1 1
+4430 enc 1 1
+4445 enc 1 1
+4460 enc 1 1
+4475 enc 1 1
+4490 enc 1 1
+4505 enc 1 1
+4520 enc 1 1
+4535 enc 1 1
+4550 enc 1 1
+4565 enc 1 1
+4580 enc 1 1
+4595 enc 1 1
+4610 enc 1 1
+4625 enc 1 1
+4640 enc 1 1
+4655 enc 1 1
+4670 enc 1 1
+4685 enc 1 1
+4750 shot
+4900 end

@@ -1,0 +1,15 @@
+# builds
+apple/build/
+# Xcode per-user state
+xcuserdata/
+*.xcuserstate
+# macOS
+.DS_Store
+# Python
+__pycache__/
+# signing: the development team (see apple/Signing.xcconfig)
+apple/Local.xcconfig
+# the FM-1 firmware: its build, Quod's sources copied in at build time, a local Python
+fm1/build/
+fm1/firmware/shared/
+fm1/.venv

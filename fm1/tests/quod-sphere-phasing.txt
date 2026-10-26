@@ -1,0 +1,453 @@
+10 midi 0xBF 100 16
+11 midi 0xBF 101 0
+12 midi 0xBF 35 0
+14 midi 0x90 60 100
+4001 shot
+4068 shot
+4135 shot
+4202 shot
+4269 shot
+4336 shot
+4403 shot
+4470 shot
+4537 shot
+4604 shot
+4671 shot
+4738 shot
+4805 shot
+4872 shot
+4939 shot
+5006 shot
+5073 shot
+5140 shot
+5207 shot
+5274 shot
+5341 shot
+5408 shot
+5475 shot
+5542 shot
+5609 shot
+5676 shot
+5743 shot
+5810 shot
+5877 shot
+5944 shot
+6011 shot
+6078 shot
+6145 shot
+6212 shot
+6279 shot
+6346 shot
+6413 shot
+6480 shot
+6547 shot
+6614 shot
+6681 shot
+6748 shot
+6815 shot
+6882 shot
+6949 shot
+7015 midi 0xBF 35 0
+7016 shot
+7082 midi 0xBF 35 1
+7083 shot
+7149 midi 0xBF 35 2
+7150 shot
+7216 midi 0xBF 35 2
+7217 shot
+7283 midi 0xBF 35 3
+7284 shot
+7350 midi 0xBF 35 4
+7351 shot
+7417 midi 0xBF 35 4
+7418 shot
+7484 midi 0xBF 35 5
+7485 shot
+7551 midi 0xBF 35 6
+7552 shot
+7618 midi 0xBF 35 7
+7619 shot
+7685 midi 0xBF 35 7
+7686 shot
+7752 midi 0xBF 35 8
+7753 shot
+7819 midi 0xBF 35 9
+7820 shot
+7886 midi 0xBF 35 9
+7887 shot
+7953 midi 0xBF 35 10
+7954 shot
+8020 midi 0xBF 35 11
+8021 shot
+8087 midi 0xBF 35 12
+8088 shot
+8154 midi 0xBF 35 12
+8155 shot
+8221 midi 0xBF 35 13
+8222 shot
+8288 midi 0xBF 35 14
+8289 shot
+8355 midi 0xBF 35 14
+8356 shot
+8422 midi 0xBF 35 15
+8423 shot
+8489 midi 0xBF 35 16
+8490 shot
+8556 midi 0xBF 35 16
+8557 shot
+8623 midi 0xBF 35 17
+8624 shot
+8690 midi 0xBF 35 18
+8691 shot
+8757 midi 0xBF 35 19
+8758 shot
+8824 midi 0xBF 35 19
+8825 shot
+8891 midi 0xBF 35 20
+8892 shot
+8958 midi 0xBF 35 21
+8959 shot
+9025 midi 0xBF 35 21
+9026 shot
+9092 midi 0xBF 35 22
+9093 shot
+9159 midi 0xBF 35 23
+9160 shot
+9226 midi 0xBF 35 24
+9227 shot
+9293 midi 0xBF 35 24
+9294 shot
+9360 midi 0xBF 35 25
+9361 shot
+9427 midi 0xBF 35 26
+9428 shot
+9494 midi 0xBF 35 26
+9495 shot
+9561 midi 0xBF 35 27
+9562 shot
+9628 midi 0xBF 35 28
+9629 shot
+9695 midi 0xBF 35 29
+9696 shot
+9762 midi 0xBF 35 29
+9763 shot
+9829 midi 0xBF 35 30
+9830 shot
+9896 midi 0xBF 35 31
+9897 shot
+9963 midi 0xBF 35 31
+9964 shot
+10030 midi 0xBF 35 32
+10031 shot
+10097 midi 0xBF 35 33
+10098 shot
+10164 midi 0xBF 35 33
+10165 shot
+10231 midi 0xBF 35 34
+10232 shot
+10298 midi 0xBF 35 35
+10299 shot
+10365 midi 0xBF 35 36
+10366 shot
+10432 midi 0xBF 35 36
+10433 shot
+10499 midi 0xBF 35 37
+10500 shot
+10566 midi 0xBF 35 38
+10567 shot
+10633 midi 0xBF 35 38
+10634 shot
+10700 midi 0xBF 35 39
+10701 shot
+10767 midi 0xBF 35 40
+10768 shot
+10834 midi 0xBF 35 41
+10835 shot
+10901 midi 0xBF 35 41
+10902 shot
+10968 midi 0xBF 35 42
+10969 shot
+11035 midi 0xBF 35 43
+11036 shot
+11102 midi 0xBF 35 43
+11103 shot
+11169 midi 0xBF 35 44
+11170 shot
+11236 midi 0xBF 35 45
+11237 shot
+11303 midi 0xBF 35 46
+11304 shot
+11370 midi 0xBF 35 46
+11371 shot
+11437 midi 0xBF 35 47
+11438 shot
+11504 midi 0xBF 35 48
+11505 shot
+11571 midi 0xBF 35 48
+11572 shot
+11638 midi 0xBF 35 49
+11639 shot
+11705 midi 0xBF 35 50
+11706 shot
+11772 midi 0xBF 35 51
+11773 shot
+11839 midi 0xBF 35 51
+11840 shot
+11906 midi 0xBF 35 52
+11907 shot
+11973 midi 0xBF 35 53
+11974 shot
+12040 midi 0xBF 35 53
+12041 shot
+12107 midi 0xBF 35 54
+12108 shot
+12174 midi 0xBF 35 55
+12175 shot
+12241 midi 0xBF 35 55
+12242 shot
+12308 midi 0xBF 35 56
+12309 shot
+12375 midi 0xBF 35 57
+12376 shot
+12442 midi 0xBF 35 58
+12443 shot
+12509 midi 0xBF 35 58
+12510 shot
+12576 midi 0xBF 35 59
+12577 shot
+12643 midi 0xBF 35 60
+12644 shot
+12710 midi 0xBF 35 60
+12711 shot
+12777 midi 0xBF 35 61
+12778 shot
+12844 midi 0xBF 35 62
+12845 shot
+12911 midi 0xBF 35 63
+12912 shot
+12978 midi 0xBF 35 63
+12979 shot
+13045 midi 0xBF 35 64
+13046 shot
+13112 midi 0xBF 35 65
+13113 shot
+13179 midi 0xBF 35 65
+13180 shot
+13246 midi 0xBF 35 66
+13247 shot
+13313 midi 0xBF 35 67
+13314 shot
+13380 midi 0xBF 35 68
+13381 shot
+13447 midi 0xBF 35 68
+13448 shot
+13514 midi 0xBF 35 69
+13515 shot
+13581 midi 0xBF 35 70
+13582 shot
+13648 midi 0xBF 35 70
+13649 shot
+13715 midi 0xBF 35 71
+13716 shot
+13782 midi 0xBF 35 72
+13783 shot
+13849 midi 0xBF 35 72
+13850 shot
+13916 midi 0xBF 35 73
+13917 shot
+13983 midi 0xBF 35 74
+13984 shot
+14050 midi 0xBF 35 75
+14051 shot
+14117 midi 0xBF 35 75
+14118 shot
+14184 midi 0xBF 35 76
+14185 shot
+14251 midi 0xBF 35 77
+14252 shot
+14318 midi 0xBF 35 77
+14319 shot
+14385 midi 0xBF 35 78
+14386 shot
+14452 midi 0xBF 35 79
+14453 shot
+14519 midi 0xBF 35 80
+14520 shot
+14586 midi 0xBF 35 80
+14587 shot
+14653 midi 0xBF 35 81
+14654 shot
+14720 midi 0xBF 35 82
+14721 shot
+14787 midi 0xBF 35 82
+14788 shot
+14854 midi 0xBF 35 83
+14855 shot
+14921 midi 0xBF 35 84
+14922 shot
+14988 midi 0xBF 35 85
+14989 shot
+15055 midi 0xBF 35 85
+15056 shot
+15122 midi 0xBF 35 86
+15123 shot
+15189 midi 0xBF 35 87
+15190 shot
+15256 midi 0xBF 35 87
+15257 shot
+15323 midi 0xBF 35 88
+15324 shot
+15390 midi 0xBF 35 89
+15391 shot
+15457 midi 0xBF 35 90
+15458 shot
+15524 midi 0xBF 35 90
+15525 shot
+15591 midi 0xBF 35 91
+15592 shot
+15658 midi 0xBF 35 92
+15659 shot
+15725 midi 0xBF 35 92
+15726 shot
+15792 midi 0xBF 35 93
+15793 shot
+15859 midi 0xBF 35 94
+15860 shot
+15926 midi 0xBF 35 94
+15927 shot
+15993 midi 0xBF 35 95
+15994 shot
+16060 midi 0xBF 35 96
+16061 shot
+16127 midi 0xBF 35 97
+16128 shot
+16194 midi 0xBF 35 97
+16195 shot
+16261 midi 0xBF 35 98
+16262 shot
+16328 midi 0xBF 35 99
+16329 shot
+16395 midi 0xBF 35 99
+16396 shot
+16462 midi 0xBF 35 100
+16463 shot
+16529 midi 0xBF 35 101
+16530 shot
+16596 midi 0xBF 35 102
+16597 shot
+16663 midi 0xBF 35 102
+16664 shot
+16730 midi 0xBF 35 103
+16731 shot
+16797 midi 0xBF 35 104
+16798 shot
+16864 midi 0xBF 35 104
+16865 shot
+16931 midi 0xBF 35 105
+16932 shot
+16998 midi 0xBF 35 106
+16999 shot
+17065 midi 0xBF 35 107
+17066 shot
+17132 midi 0xBF 35 107
+17133 shot
+17199 midi 0xBF 35 108
+17200 shot
+17266 midi 0xBF 35 109
+17267 shot
+17333 midi 0xBF 35 109
+17334 shot
+17400 midi 0xBF 35 110
+17401 shot
+17467 midi 0xBF 35 111
+17468 shot
+17534 midi 0xBF 35 111
+17535 shot
+17601 midi 0xBF 35 112
+17602 shot
+17668 midi 0xBF 35 113
+17669 shot
+17735 midi 0xBF 35 114
+17736 shot
+17802 midi 0xBF 35 114
+17803 shot
+17869 midi 0xBF 35 115
+17870 shot
+17936 midi 0xBF 35 116
+17937 shot
+18003 midi 0xBF 35 116
+18004 shot
+18070 midi 0xBF 35 117
+18071 shot
+18137 midi 0xBF 35 118
+18138 shot
+18204 midi 0xBF 35 119
+18205 shot
+18271 midi 0xBF 35 119
+18272 shot
+18338 midi 0xBF 35 120
+18339 shot
+18405 midi 0xBF 35 121
+18406 shot
+18472 midi 0xBF 35 121
+18473 shot
+18539 midi 0xBF 35 122
+18540 shot
+18606 midi 0xBF 35 123
+18607 shot
+18673 midi 0xBF 35 124
+18674 shot
+18740 midi 0xBF 35 124
+18741 shot
+18807 midi 0xBF 35 125
+18808 shot
+18874 midi 0xBF 35 126
+18875 shot
+18941 midi 0xBF 35 126
+18942 shot
+19009 shot
+19076 shot
+19143 shot
+19210 shot
+19277 shot
+19344 shot
+19411 shot
+19478 shot
+19545 shot
+19612 shot
+19679 shot
+19746 shot
+19813 shot
+19880 shot
+19947 shot
+20014 shot
+20081 shot
+20148 shot
+20215 shot
+20282 shot
+20349 shot
+20416 shot
+20483 shot
+20550 shot
+20617 shot
+20684 shot
+20751 shot
+20818 shot
+20885 shot
+20952 shot
+21019 shot
+21086 shot
+21153 shot
+21220 shot
+21287 shot
+21354 shot
+21421 shot
+21488 shot
+21555 shot
+21622 shot
+21689 shot
+21756 shot
+21823 shot
+21890 shot
+21957 shot
+22100 end

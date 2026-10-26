@@ -1,0 +1,6 @@
+# The same, the delay off (shift + Venus -25).
+50 btn 3
+60 enc 5 -25
+70 up 3
+100 btn 12
+10000 end

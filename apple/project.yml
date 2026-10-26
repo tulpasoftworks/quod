@@ -1,0 +1,90 @@
+# SPDX-License-Identifier: MIT
+# Quod for macOS: an app carrying an Audio Unit v3 extension. `xcodegen` makes Quod.xcodeproj from this.
+name: Quod
+options:
+  bundleIdPrefix: com.tulpasoftworks
+  deploymentTarget:
+    macOS: "13.0"
+configFiles:                                    # (the team: Signing.xcconfig reads it from Local.xcconfig, not committed)
+  Debug: Signing.xcconfig
+  Release: Signing.xcconfig
+settings:
+  base:
+    CODE_SIGN_STYLE: Manual                     # (signed with the Apple Development certificate in the keychain;
+    CODE_SIGN_IDENTITY: Apple Development       #  a Developer ID one for releases)
+    MARKETING_VERSION: "0.1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    GCC_C_LANGUAGE_STANDARD: c11
+    CLANG_ENABLE_OBJC_ARC: YES
+    ENABLE_HARDENED_RUNTIME: YES
+targets:
+  Quod:
+    type: application
+    platform: macOS
+    sources:
+      - path: App
+      - path: ../LICENSE                        # (the licences travel with the app: Resources/Licenses)
+        buildPhase:
+          copyFiles: {destination: resources, subpath: Licenses}
+      - path: ../THIRD-PARTY-NOTICES.md
+        buildPhase:
+          copyFiles: {destination: resources, subpath: Licenses}
+      - path: ../art/fonts/Terminus-OFL.txt
+        buildPhase:
+          copyFiles: {destination: resources, subpath: Licenses}
+      - path: ../art/fonts/UnifrakturMaguntia-OFL.txt
+        buildPhase:
+          copyFiles: {destination: resources, subpath: Licenses}
+    dependencies:
+      - target: QuodAU
+        embed: true
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.tulpasoftworks.Quod
+        PRODUCT_NAME: Quod
+    info:
+      path: App/Info.plist
+      properties:
+        CFBundleDisplayName: Quod
+        LSApplicationCategoryType: public.app-category.music
+        NSHumanReadableCopyright: Copyright (c) 2026 Kip DeCastro. MIT licence.
+        LSMinimumSystemVersion: "13.0"
+    entitlements:
+      path: App/Quod.entitlements
+      properties:
+        com.apple.security.app-sandbox: true
+  QuodAU:
+    type: app-extension
+    platform: macOS
+    sources:
+      - path: Extension
+      - path: Engine
+        excludes:
+          - quod_engine.c                       # (included by each quod_slotN.c)
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.tulpasoftworks.Quod.AU
+        PRODUCT_NAME: QuodAU
+        HEADER_SEARCH_PATHS: ["$(SRCROOT)/Engine", "$(SRCROOT)/../src", "$(SRCROOT)/../gen"]
+        GCC_OPTIMIZATION_LEVEL: "2"
+    info:
+      path: Extension/Info.plist
+      properties:
+        CFBundleDisplayName: Quod
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.AudioUnit-UI
+          NSExtensionPrincipalClass: QuodViewController
+          NSExtensionAttributes:
+            AudioComponents:
+              - name: "Tulpa SoftWorks: Quod"
+                description: Quod, a drone between heaven and hell
+                manufacturer: Tlpa                     # (Tulpa SoftWorks)
+                type: aumu
+                subtype: Quod
+                version: 256
+                sandboxSafe: true
+                tags: [Synthesizer]
+    entitlements:
+      path: Extension/QuodAU.entitlements
+      properties:
+        com.apple.security.app-sandbox: true

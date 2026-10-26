@@ -1,0 +1,22 @@
+# The showcase by its button combo: HOME REC held 1 s; then a key stops it and what was set returns.
+14 midi 0x90 60 100
+5500 enc 4 6
+6500 shot
+7100 hold 8
+7300 hold 13
+7400 shot
+7800 shot
+8000 shot
+8200 shot
+8320 shot
+8350 shot
+8400 up 8
+8400 up 13
+10000 shot
+20000 shot
+40000 shot
+40500 keys 0x1
+40600 keys 0
+41000 shot
+47000 shot
+48000 end

@@ -1,0 +1,7 @@
+# defaults (bias in the middle), then the bias slid to all-above (KNOB 2 = encoder 3) at 3 s, all-below at 11 s
+10 midi 0xBF 100 16
+11 midi 0xBF 101 0
+12 midi 0x90 60 100
+3000 enc 3 50
+11000 enc 3 -100
+19000 end

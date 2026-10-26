@@ -1,0 +1,46 @@
+# Builds the FM-1 firmware on every push and pull request (on Linux: JieLi's toolchain is Linux x86-64). No secrets:
+# its toolchain and SDK files are public downloads. The Mac app and its Audio Unit are built, signed and notarised on
+# a Mac by tools/release.sh, which also drafts the release (GitHub's macOS minutes cost several of Linux's).
+name: build
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  firmware:
+    runs-on: ubuntu-24.04                       # x86-64 Linux: JieLi's toolchain runs directly, no Docker
+    defaults:
+      run:
+        working-directory: fm1
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install Pillow
+      - uses: actions/cache@v4
+        with:
+          path: ~/.jieli
+          key: jieli-toolchain-${{ hashFiles('fm1/tools/get_toolchain.sh') }}
+      - name: Toolchain
+        run: '[ -x ~/.jieli/toolchain/pi32v2/bin/clang ] || tools/get_toolchain.sh'
+      - name: SDK files
+        run: tools/get_sdk.sh
+      - name: Build
+        run: ./build.sh
+      - name: Run on the host (tests/quod.txt)
+        run: tests/run_host.sh tests/quod.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: quod-fm1
+          path: |
+            fm1/build/quod.fwsc
+            fm1/build/host/quod.wav
+            fm1/build/host/*.png

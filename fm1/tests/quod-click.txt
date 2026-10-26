@@ -1,0 +1,3 @@
+# 10 s of the drone with the sequencer playing (default pattern), delay at its default.
+100 btn 12
+10000 end

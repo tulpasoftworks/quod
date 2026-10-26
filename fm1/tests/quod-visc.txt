@@ -1,0 +1,10 @@
+14 midi 0x90 60 100
+1000 enc 0 0
+1100 shot
+2000 enc 0 40
+2100 shot
+3000 enc 0 -100
+3100 shot
+4000 enc 0 50
+4100 shot
+5000 end

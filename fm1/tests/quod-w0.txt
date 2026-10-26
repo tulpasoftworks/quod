@@ -1,0 +1,7 @@
+10 midi 0xBF 100 16
+11 midi 0xBF 101 0
+12 midi 0xBF 35 0
+13 midi 0xBF 36 0
+14 midi 0xBF 34 64
+15 midi 0x90 60 100
+9000 end

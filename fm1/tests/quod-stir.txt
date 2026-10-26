@@ -1,0 +1,8 @@
+# Stirred: the sequencer at 240 BPM 1/16 (shift + Saturn, Mercury), Mars 70.
+50 btn 3
+60 enc 0 180
+70 enc 1 2
+80 up 3
+90 enc 3 40
+100 btn 12
+15000 end

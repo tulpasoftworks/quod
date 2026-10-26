@@ -1,0 +1,17 @@
+# The MIT core's check: the same sound and screens before and after a change to the core's plumbing.
+10 midi 0xBF 100 16
+11 midi 0xBF 101 0
+14 midi 0x90 48 100
+5000 shot
+6000 midi 0xBF 44 110
+9000 shot
+9500 midi 0xBF 35 20
+11000 shot
+11500 midi 0xBF 44 10
+14000 shot
+14500 btn 2
+15500 shot
+15600 up 2
+16000 midi 0x90 55 100
+17500 shot
+18000 end

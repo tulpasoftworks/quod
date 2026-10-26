@@ -1,0 +1,394 @@
+10 midi 0xBF 100 16
+11 midi 0xBF 101 0
+12 midi 0xBF 44 127
+14 midi 0x90 60 100
+3001 shot
+3068 shot
+3135 shot
+3202 shot
+3269 shot
+3336 shot
+3403 shot
+3470 shot
+3537 shot
+3604 shot
+3671 shot
+3738 shot
+3805 shot
+3872 shot
+3939 shot
+4006 shot
+4073 shot
+4140 shot
+4207 shot
+4274 shot
+4341 shot
+4408 shot
+4475 shot
+4542 shot
+4609 shot
+4676 shot
+4743 shot
+4810 shot
+4877 shot
+4944 shot
+5011 shot
+5078 shot
+5145 shot
+5212 shot
+5279 shot
+5346 shot
+5413 shot
+5480 shot
+5547 shot
+5614 shot
+5681 shot
+5748 shot
+5815 shot
+5882 shot
+5949 shot
+6015 midi 0xBF 44 127
+6016 shot
+6082 midi 0xBF 44 126
+6083 shot
+6149 midi 0xBF 44 125
+6150 shot
+6216 midi 0xBF 44 124
+6217 shot
+6283 midi 0xBF 44 123
+6284 shot
+6350 midi 0xBF 44 123
+6351 shot
+6417 midi 0xBF 44 122
+6418 shot
+6484 midi 0xBF 44 121
+6485 shot
+6551 midi 0xBF 44 120
+6552 shot
+6618 midi 0xBF 44 119
+6619 shot
+6685 midi 0xBF 44 118
+6686 shot
+6752 midi 0xBF 44 117
+6753 shot
+6819 midi 0xBF 44 117
+6820 shot
+6886 midi 0xBF 44 116
+6887 shot
+6953 midi 0xBF 44 115
+6954 shot
+7020 midi 0xBF 44 114
+7021 shot
+7087 midi 0xBF 44 113
+7088 shot
+7154 midi 0xBF 44 112
+7155 shot
+7221 midi 0xBF 44 111
+7222 shot
+7288 midi 0xBF 44 111
+7289 shot
+7355 midi 0xBF 44 110
+7356 shot
+7422 midi 0xBF 44 109
+7423 shot
+7489 midi 0xBF 44 108
+7490 shot
+7556 midi 0xBF 44 107
+7557 shot
+7623 midi 0xBF 44 106
+7624 shot
+7690 midi 0xBF 44 106
+7691 shot
+7757 midi 0xBF 44 105
+7758 shot
+7824 midi 0xBF 44 104
+7825 shot
+7891 midi 0xBF 44 103
+7892 shot
+7958 midi 0xBF 44 102
+7959 shot
+8025 midi 0xBF 44 101
+8026 shot
+8092 midi 0xBF 44 100
+8093 shot
+8159 midi 0xBF 44 100
+8160 shot
+8226 midi 0xBF 44 99
+8227 shot
+8293 midi 0xBF 44 98
+8294 shot
+8360 midi 0xBF 44 97
+8361 shot
+8427 midi 0xBF 44 96
+8428 shot
+8494 midi 0xBF 44 95
+8495 shot
+8561 midi 0xBF 44 94
+8562 shot
+8628 midi 0xBF 44 94
+8629 shot
+8695 midi 0xBF 44 93
+8696 shot
+8762 midi 0xBF 44 92
+8763 shot
+8829 midi 0xBF 44 91
+8830 shot
+8896 midi 0xBF 44 90
+8897 shot
+8963 midi 0xBF 44 89
+8964 shot
+9030 midi 0xBF 44 89
+9031 shot
+9097 midi 0xBF 44 88
+9098 shot
+9164 midi 0xBF 44 87
+9165 shot
+9231 midi 0xBF 44 86
+9232 shot
+9298 midi 0xBF 44 85
+9299 shot
+9365 midi 0xBF 44 84
+9366 shot
+9432 midi 0xBF 44 83
+9433 shot
+9499 midi 0xBF 44 83
+9500 shot
+9566 midi 0xBF 44 82
+9567 shot
+9633 midi 0xBF 44 81
+9634 shot
+9700 midi 0xBF 44 80
+9701 shot
+9767 midi 0xBF 44 79
+9768 shot
+9834 midi 0xBF 44 78
+9835 shot
+9901 midi 0xBF 44 77
+9902 shot
+9968 midi 0xBF 44 77
+9969 shot
+10035 midi 0xBF 44 76
+10036 shot
+10102 midi 0xBF 44 75
+10103 shot
+10169 midi 0xBF 44 74
+10170 shot
+10236 midi 0xBF 44 73
+10237 shot
+10303 midi 0xBF 44 72
+10304 shot
+10370 midi 0xBF 44 72
+10371 shot
+10437 midi 0xBF 44 71
+10438 shot
+10504 midi 0xBF 44 70
+10505 shot
+10571 midi 0xBF 44 69
+10572 shot
+10638 midi 0xBF 44 68
+10639 shot
+10705 midi 0xBF 44 67
+10706 shot
+10772 midi 0xBF 44 66
+10773 shot
+10839 midi 0xBF 44 66
+10840 shot
+10906 midi 0xBF 44 65
+10907 shot
+10973 midi 0xBF 44 64
+10974 shot
+11040 midi 0xBF 44 63
+11041 shot
+11107 midi 0xBF 44 62
+11108 shot
+11174 midi 0xBF 44 61
+11175 shot
+11241 midi 0xBF 44 60
+11242 shot
+11308 midi 0xBF 44 60
+11309 shot
+11375 midi 0xBF 44 59
+11376 shot
+11442 midi 0xBF 44 58
+11443 shot
+11509 midi 0xBF 44 57
+11510 shot
+11576 midi 0xBF 44 56
+11577 shot
+11643 midi 0xBF 44 55
+11644 shot
+11710 midi 0xBF 44 54
+11711 shot
+11777 midi 0xBF 44 54
+11778 shot
+11844 midi 0xBF 44 53
+11845 shot
+11911 midi 0xBF 44 52
+11912 shot
+11978 midi 0xBF 44 51
+11979 shot
+12045 midi 0xBF 44 50
+12046 shot
+12112 midi 0xBF 44 49
+12113 shot
+12179 midi 0xBF 44 49
+12180 shot
+12246 midi 0xBF 44 48
+12247 shot
+12313 midi 0xBF 44 47
+12314 shot
+12380 midi 0xBF 44 46
+12381 shot
+12447 midi 0xBF 44 45
+12448 shot
+12514 midi 0xBF 44 44
+12515 shot
+12581 midi 0xBF 44 43
+12582 shot
+12648 midi 0xBF 44 43
+12649 shot
+12715 midi 0xBF 44 42
+12716 shot
+12782 midi 0xBF 44 41
+12783 shot
+12849 midi 0xBF 44 40
+12850 shot
+12916 midi 0xBF 44 39
+12917 shot
+12983 midi 0xBF 44 38
+12984 shot
+13050 midi 0xBF 44 37
+13051 shot
+13117 midi 0xBF 44 37
+13118 shot
+13184 midi 0xBF 44 36
+13185 shot
+13251 midi 0xBF 44 35
+13252 shot
+13318 midi 0xBF 44 34
+13319 shot
+13385 midi 0xBF 44 33
+13386 shot
+13452 midi 0xBF 44 32
+13453 shot
+13519 midi 0xBF 44 32
+13520 shot
+13586 midi 0xBF 44 31
+13587 shot
+13653 midi 0xBF 44 30
+13654 shot
+13720 midi 0xBF 44 29
+13721 shot
+13787 midi 0xBF 44 28
+13788 shot
+13854 midi 0xBF 44 27
+13855 shot
+13921 midi 0xBF 44 26
+13922 shot
+13988 midi 0xBF 44 26
+13989 shot
+14055 midi 0xBF 44 25
+14056 shot
+14122 midi 0xBF 44 24
+14123 shot
+14189 midi 0xBF 44 23
+14190 shot
+14256 midi 0xBF 44 22
+14257 shot
+14323 midi 0xBF 44 21
+14324 shot
+14390 midi 0xBF 44 20
+14391 shot
+14457 midi 0xBF 44 20
+14458 shot
+14524 midi 0xBF 44 19
+14525 shot
+14591 midi 0xBF 44 18
+14592 shot
+14658 midi 0xBF 44 17
+14659 shot
+14725 midi 0xBF 44 16
+14726 shot
+14792 midi 0xBF 44 15
+14793 shot
+14859 midi 0xBF 44 14
+14860 shot
+14926 midi 0xBF 44 14
+14927 shot
+14993 midi 0xBF 44 13
+14994 shot
+15060 midi 0xBF 44 12
+15061 shot
+15127 midi 0xBF 44 11
+15128 shot
+15194 midi 0xBF 44 10
+15195 shot
+15261 midi 0xBF 44 9
+15262 shot
+15328 midi 0xBF 44 9
+15329 shot
+15395 midi 0xBF 44 8
+15396 shot
+15462 midi 0xBF 44 7
+15463 shot
+15529 midi 0xBF 44 6
+15530 shot
+15596 midi 0xBF 44 5
+15597 shot
+15663 midi 0xBF 44 4
+15664 shot
+15730 midi 0xBF 44 3
+15731 shot
+15797 midi 0xBF 44 3
+15798 shot
+15864 midi 0xBF 44 2
+15865 shot
+15931 midi 0xBF 44 1
+15932 shot
+15998 midi 0xBF 44 0
+15999 shot
+16066 shot
+16133 shot
+16200 shot
+16267 shot
+16334 shot
+16401 shot
+16468 shot
+16535 shot
+16602 shot
+16669 shot
+16736 shot
+16803 shot
+16870 shot
+16937 shot
+17004 shot
+17071 shot
+17138 shot
+17205 shot
+17272 shot
+17339 shot
+17406 shot
+17473 shot
+17540 shot
+17607 shot
+17674 shot
+17741 shot
+17808 shot
+17875 shot
+17942 shot
+18009 shot
+18076 shot
+18143 shot
+18210 shot
+18277 shot
+18344 shot
+18411 shot
+18478 shot
+18545 shot
+18612 shot
+18679 shot
+18746 shot
+18813 shot
+18880 shot
+18947 shot
+19100 end

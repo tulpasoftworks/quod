@@ -1,0 +1,8 @@
+10 midi 0xBF 100 16
+11 midi 0xBF 101 0
+14 midi 0x90 60 100
+3000 enc 4 -50
+3100 shot
+6000 enc 4 100
+6100 shot
+9000 end

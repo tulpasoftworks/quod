@@ -1,0 +1,24 @@
+# APP=quod tests/run_host.sh tests/quod.txt
+# Encoders: 0 Saturn, 1 Mercury, 2 Sun, 3 Mars, 4 Moon, 5 Venus, 6 Jupiter. Buttons: 2 FX, 3 SEL (shift, held),
+# 11 SEQ (step mode), 12 PLAY, 13 REC. White keys 0 2 4 6 7 9 11 12 14 16 18 19 21 23 24 26 = steps 1-16.
+1800 shot
+# Play the default pattern (C3 G3 Eb3 G2 on the beats, 60 BPM, 1/4: a step a second... 1/4 = a beat).
+2000 btn 12
+# Shift + Saturn: tempo 120.
+2500 btn 3
+2510 enc 0 60
+2600 shot
+2700 up 3
+# Step mode; step 3 (key 4) tapped on; hold step 7 (key 11) and play E4 (key 11? no: key 16 = A4) as its root;
+# hold step 7 and turn Moon (tilt) +40: a lock.
+3000 btn 11
+3100 keys 0x10
+3200 keys 0
+3300 keys 0x800
+3400 keys 0x10800
+3500 keys 0x800
+3600 enc 4 40
+3700 shot
+3800 keys 0
+4500 shot
+6000 end

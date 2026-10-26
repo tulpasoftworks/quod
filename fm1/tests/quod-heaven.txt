@@ -1,0 +1,8 @@
+# full heaven, no delay, no reverb, no phasing (probe CCs on channel 16)
+10 midi 0xBF 100 80
+11 midi 0xBF 101 0
+12 midi 0xBF 34 127
+13 midi 0xBF 32 127
+14 midi 0xBF 35 0
+15 midi 0x90 60 100
+11000 end

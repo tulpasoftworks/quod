@@ -1,0 +1,8 @@
+# spread full, viscosity 80 (slow), C4 then C6 at 4 s
+10 midi 0xBF 36 127
+11 midi 0xBF 30 102
+12 midi 0xBF 100 16
+13 midi 0xBF 101 0
+14 midi 0x90 60 100
+4000 midi 0x90 84 100
+16000 end
