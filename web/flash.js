@@ -82,6 +82,7 @@ async function saveState() {
 async function chooseStock(file) {
   S.stock = null;
   S.tested = false;
+  S.what = "quod";                              // (the official one, back, only once this file is tested)
   say("Checking the file…");
   draw();
   const pkg = await checkStockPackage(await file.arrayBuffer());
@@ -160,7 +161,8 @@ function stepText() {
     case 0: return ["Connect the FM-1", "Plug it into this computer with a USB data cable and switch it on."];
     case 1:
       if (d.mode === "quod") return ["Save Quod's state",
-        "The FM-1 runs Quod. Save what it plays now (the controls, the steps, their notes and locks) before installing over it."];
+        "The FM-1 runs Quod. Save what it plays now (the controls, the steps, their notes and locks) before installing over it. " +
+        "To put the official firmware back instead, also choose M-VAVE's FM-1.fwsc and test it on the FM-1."];
       if (d.mode === "stock") return [`Your copy of ${version(d.id)}`,
         `The FM-1 can't send its firmware back over USB, so the way back is M-VAVE's own file. It runs ${version(d.id)}: choose that FM-1.fwsc.`];
       return ["A way back, tested", "The FM-1 can't send its firmware back over USB, so the way back is M-VAVE's own file. " +
@@ -178,12 +180,12 @@ function actions() {
   const d = S.dev, h = [];
   if (S.step === 0) h.push(button("Find the FM-1", "find", S.busy));
   if (S.step === 1 && d.mode === "quod") h.push(button("Save Quod's state", "saveState", S.busy || S.stateSaved));
-  if (S.step === 1 && d.mode !== "quod") {
+  if (S.step === 1) {                           // (on Quod, the official package is optional: only to go back)
     h.push(button(S.stock ? "Choose another file" : "Choose FM-1.fwsc", "pick", S.busy));
     if (d.mode !== "stock") h.push(button("Test it on the FM-1", "test", S.busy || !S.stock || S.tested));
   }
   if (S.step === 2 && (!S.progress || S.failed)) {
-    if (S.stock && wayBack() && d.mode !== "loader" && d.mode !== "stock") h.push(`<div class="what">
+    if (S.stock && S.tested && d.mode !== "loader" && d.mode !== "stock") h.push(`<div class="what">
       <label><input type="radio" name="fl-what" value="quod" ${S.what === "quod" ? "checked" : ""}> Quod ${quod ? quod.version : ""}</label>
       <label><input type="radio" name="fl-what" value="official" ${S.what === "official" ? "checked" : ""}> the official ${S.stock.version}, back</label></div>`);
     h.push(`<label class="agree"><input type="checkbox" id="fl-agree" ${S.agree ? "checked" : ""} ${S.busy ? "disabled" : ""}>
