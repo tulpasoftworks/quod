@@ -31,7 +31,9 @@ let node = null, ctx = null, master = null;
 // ---- the volume: the knob's level (0..1, heard as its square), its mute, and [ LINK ]'s fade, all on one gain
 const VOL = (() => { try { return JSON.parse(localStorage.getItem("quod.volume")) || { level: 0.8, muted: false }; } catch (_) { return { level: 0.8, muted: false }; } })();
 let linkLevel = 1;
-const gainNow = () => (VOL.muted ? 0 : VOL.level * VOL.level) * linkLevel;
+// the knob's level as heard (0..1), muted or not, without [ LINK ]'s fade: [ LINK ]'s song plays at it
+export const volume = () => (VOL.muted ? 0 : VOL.level * VOL.level);
+const gainNow = () => volume() * linkLevel;
 function setVolume(level, muted = VOL.muted) {
   VOL.level = Math.max(0, Math.min(1, level));
   VOL.muted = muted;

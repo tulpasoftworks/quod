@@ -4,16 +4,19 @@
 // [ LINK ]: Quod's settings (the controls, the steps, their notes and locks: a .quodstate) between the sim and an FM-1
 // running Quod, over USB-MIDI (fm1/web/quodflash.js; GPL with it), drawn as a trade (trade.js). Each of the two
 // buttons fades the sim's sound out over a second, then the trade's window fades in over the sim's screen with the
-// page dimmed behind it; a click on the result fades it out and brings the sound back.
+// page dimmed behind it, a little song playing while it runs (song.js); a click on the result fades it out and brings
+// the sound back.
 import { openMidi, QuodFlasher } from "./fm1/quodflash.js";
-import { simBackup, simRestore, running, simScreen } from "./app.js";
+import { simBackup, simRestore, running, simScreen, volume } from "./app.js";
 import { raise, lower } from "./stage.js";
 import { canFlash } from "./flash.js";
 import { setupTrade, next, notice, trade } from "./trade.js";
+import { play } from "./song.js";
 
 const $ = (id) => document.getElementById(id);
 const dlg = $("link-dialog"), cv = $("ln-canvas");
 let flasher = null, busy = false;
+const SONG = "sparkle";                           // (song.js's TUNES)
 setupTrade(cv, simScreen);
 
 const say = (t, kind = "") => { $("ln-msg").textContent = t; $("ln-msg").dataset.kind = kind; };
@@ -35,13 +38,17 @@ async function quodFM1() {
 async function move(to) {
   try {
     try { await quodFM1(); } catch (e) { notice(e.lines || WINDOW[e.code] || ["THAT DIDN'T", "WORK."]); throw e; }
-    if (to === "fm1") {
-      await trade("fm1", null, simBackup().then((b) => flasher.restoreState(b)));
-      say("The FM-1 plays the sim's settings now, and has saved them.", "ok");
-    } else {
-      await trade("sim", null, flasher.backupState().then((b) => simRestore(b)));
-      say("The sim plays the FM-1's settings now. Press SAVE to keep them in this browser.", "ok");
+    const song = play(SONG, volume());
+    try {
+      if (to === "fm1") await trade("fm1", null, simBackup().then((b) => flasher.restoreState(b)));
+      else await trade("sim", null, flasher.backupState().then((b) => simRestore(b)));
+    } catch (e) {
+      song.end(false);
+      throw e;
     }
+    song.end(true);
+    say(to === "fm1" ? "The FM-1 plays the sim's settings now, and has saved them."
+                     : "The sim plays the FM-1's settings now. Press SAVE to keep them in this browser.", "ok");
   } catch (e) {
     say(e.message, "bad");
   }
