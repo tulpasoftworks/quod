@@ -1,0 +1,13 @@
+[package]
+name = "quod-wasm"
+description = "Quod in the browser: the engine as WebAssembly, for web/worklet.js"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+quod-core = { path = "../quod-core" }

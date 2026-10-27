@@ -1,0 +1,15 @@
+# SPDX-License-Identifier: MIT
+# Quod's Rust hosts: the core (the C engine, ../engine), the browser's (WASM) and the plug-in (VST3, CLAP).
+[workspace]
+resolver = "2"
+members = ["crates/quod-core", "crates/quod-wasm", "crates/quod-plugin", "xtask"]
+
+[workspace.package]
+version = "0.2.0"
+edition = "2021"
+license = "MIT"
+authors = ["Kip DeCastro"]
+
+[profile.release]
+opt-level = 3
+lto = "thin"

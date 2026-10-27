@@ -1,0 +1,3 @@
+# nih-plug's bundler (cargo xtask bundle): the plug-in's file names
+[quod-plugin]
+name = "Quod"

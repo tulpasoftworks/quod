@@ -1,0 +1,18 @@
+[package]
+name = "quod-plugin"
+description = "Quod as a VST3 and CLAP instrument (Windows, macOS, Linux)"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+# The sources are MIT; a VST3 built from them links nih-plug's VST3 bindings (vst3-sys, GPL-3.0), so a .vst3 is a
+# whole under the GPL-3.0 (as the FM-1 firmware is). The CLAP has no GPL parts.
+license = "MIT"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+
+[dependencies]
+quod-core = { path = "../quod-core" }
+nih_plug = { git = "https://github.com/robbert-vdh/nih-plug.git", rev = "de421011f41a6d10fc8c7a6084e4f4dee0143683", features = ["assert_process_allocs"] }
+nih_plug_egui = { git = "https://github.com/robbert-vdh/nih-plug.git", rev = "de421011f41a6d10fc8c7a6084e4f4dee0143683" }
+rfd = "0.15"
