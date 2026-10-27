@@ -73,7 +73,7 @@ mkdir -p "$OUT/Quod-$V-licenses"
 cp LICENSE THIRD-PARTY-NOTICES.md art/fonts/Terminus-OFL.txt art/fonts/UnifrakturMaguntia-OFL.txt "$OUT/Quod-$V-licenses/"
 cp fm1/LICENSE "$OUT/Quod-$V-licenses/fm1-LICENSE-GPL-3.0.txt"
 cp fm1/LICENSING.md "$OUT/Quod-$V-licenses/fm1-LICENSING.md"
-(cd "$OUT" && ditto -c -k --keepParent "Quod-$V-licenses" "Quod-$V-licenses.zip")
+(cd "$OUT" && ditto -c -k --norsrc --noextattr --keepParent "Quod-$V-licenses" "Quod-$V-licenses.zip")   # (no ._ files)
 
 echo "== $TAG on GitHub, a draft (publish it from its page once checked)"
 git tag -a "$TAG" -m "Quod $V"
@@ -83,7 +83,8 @@ cat > "$OUT/notes.md" <<EOF
 registers the Audio Unit (Tulpa SoftWorks: Quod) for Logic, GarageBand and other hosts.
 
 **M-VAVE FM-1**: install \`quod-$V.fwsc\` over USB with \`python3 fm1/tools/fm1_install.py quod-$V.fwsc\` (from the
-source of this tag). To get back: hold OCT- while switching on, then install any firmware.
+source of this tag; the installer needs \`pip3 install mido python-rtmidi\` first). To get back: hold OCT- while switching
+on, then install any firmware.
 
 The firmware is free software under the GPL-3.0; its complete source is this tag. Quod itself is MIT. The licences
 (MIT, the GPL, the fonts' Open Font License) and the third-party notices are in \`Quod-$V-licenses.zip\`, and inside
