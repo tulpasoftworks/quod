@@ -48,12 +48,13 @@ SDK_SHA256 = {
     "cfg/eq_cfg_hw.bin": "41167491bffed4651750719c973d2758adeb9021a5670d02d6a53c85ed80ea7d",
 }
 
-# APP=<name> picks firmware/src/<name>.c and its identity (Dinghy is 99N; OUR_LOADER in the installer wants FM-1_9NN)
-APPS = {"quod": "FM-1_90"}
+# APP=<name> picks firmware/src/<name>.c and its identity: Quod's is FM-1_Q and its version X.Y as two digits, so it
+# can't be taken for Felucca's (FM-1_9XY) or Dinghy's (FM-1_99N). The update loader keeps Felucca's ota-FM-1_900.
+APPS = {"quod": "FM-1_Q"}
 APP = os.environ.get("APP", "quod")
 if APP not in APPS:
     raise SystemExit(f"APP={APP}: one of {', '.join(APPS)}")
-PRODUCT = APPS[APP] + "8"
+PRODUCT = APPS[APP] + "00"                      # a development build
 VERSION = None                      # APP_VER for release builds
 
 
@@ -157,7 +158,7 @@ def build_loader():
 # ---- app
 
 def build_app():
-    flags = [*CFLAGS, "-Ifirmware/hal", "-Ifirmware/src", "-Ifirmware/gen", "-Ifirmware/shared", f'-DFELUCCA_ID="{PRODUCT}"', f'-DAPP_VER="{VERSION or "0.0"}"']
+    flags = [*CFLAGS, "-Ifirmware/hal", "-Ifirmware/src", "-Ifirmware/gen", "-Ifirmware/shared", f'-DFELUCCA_ID="{PRODUCT}"', f'-DAPP_VER="{VERSION or "DEV"}"']
     cmds = [("cc", "-c", FW / "crt0.S", "-o", OUT / "crt0.o"),
             ("cc", "-c", FW / "hal" / "fm1_vec.S", "-o", OUT / "fm1_vec.o"),
             ("cc", "-c", FW / "hal" / "fm1_isr.S", "-o", OUT / "fm1_isr.o"),
@@ -281,7 +282,7 @@ def mmio_check():
 def main():
     global PRODUCT, VERSION
     ap = argparse.ArgumentParser()
-    ap.add_argument("--release", metavar="X.Y", help="release build: identity FM-1_9XY, version string X.Y")
+    ap.add_argument("--release", metavar="X.Y", help="release build: identity FM-1_QXY, version string X.Y")
     ap.add_argument("--sdk", type=Path, help="JieLi AC79 SDK checkout (default: $AC79_SDK)")
     a = ap.parse_args()
     name = f"{APP}.fwsc"
@@ -289,7 +290,7 @@ def main():
         m = re.fullmatch(r"(\d)\.(\d)(\.\d)?(-[A-Za-z0-9]+)?", a.release)
         if not m:
             raise SystemExit(f"--release {a.release}: use X.Y, X.Y.Z or X.Y-suffix, one digit each")
-        PRODUCT = APPS[APP] + m[2]
+        PRODUCT = APPS[APP] + m[1] + m[2]
         VERSION = m[1] + "." + m[2] + (m[3] or "")
         name = f"{APP}-{a.release}.fwsc"
     fm1pkg_make.SDK = a.sdk
