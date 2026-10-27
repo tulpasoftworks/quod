@@ -106,6 +106,8 @@ static NSString *title_case(const char *s)       // "HEAVEN / HELL" -> "Heaven /
         uint8_t buf[1024];
         uint32_t n = _slot->state_get(buf, sizeof buf);
         if (n) d[@"quod"] = [NSData dataWithBytes:buf length:n];
+        n = _slot->backup_get(buf, sizeof buf);   // (the same as an FM-1 backup, a .quodstate file: the app's
+        if (n) d[@"quodBackup"] = [NSData dataWithBytes:buf length:n];   // Open / Save State)
     }
     return d;
 }
@@ -113,8 +115,9 @@ static NSString *title_case(const char *s)       // "HEAVEN / HELL" -> "Heaven /
 - (void)setFullState:(NSDictionary<NSString *, id> *)fullState
 {
     [super setFullState:fullState];
-    NSData *q = fullState[@"quod"];
+    NSData *q = fullState[@"quod"], *b = fullState[@"quodBackup"];
     if (_slot && [q isKindOfClass:[NSData class]]) _slot->state_set(q.bytes, (uint32_t)q.length);
+    else if (_slot && [b isKindOfClass:[NSData class]]) _slot->backup_set(b.bytes, (uint32_t)b.length);
 }
 
 // ---- rendering

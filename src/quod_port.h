@@ -28,6 +28,7 @@
  *   memcpy, memset
  *
  * Optional, with these defaults:
+ *   Q_VERSION    the firmware's version, shown while GLO is held        ("DEV")
  *   Q_POOL       where the big buffers go (a section attribute)        (nothing)
  *   Q_AUDIO_FN   on the functions the audio calls (e.g. run from RAM)  (noinline)
  *
@@ -38,6 +39,9 @@
  *   void quod_step(void)                       a pass of the main loop: input, the sequencer, the screen
  *   void app_main(void)                        quod_init, then q_poll and quod_step for ever
  */
+#ifndef Q_VERSION
+#define Q_VERSION "DEV"
+#endif
 #ifndef Q_POOL
 #define Q_POOL
 #endif

@@ -1,6 +1,8 @@
-# Builds the FM-1 firmware on every push and pull request (on Linux: JieLi's toolchain is Linux x86-64). No secrets:
-# its toolchain and SDK files are public downloads. The Mac app and its Audio Unit are built, signed and notarised on
-# a Mac by tools/release.sh, which also drafts the release (GitHub's macOS minutes cost several of Linux's).
+# Builds on every push and pull request: the FM-1 firmware (on Linux: JieLi's toolchain is Linux x86-64; its toolchain
+# and SDK files are public downloads), the browser's Quod (WebAssembly, checked against the native build sample for
+# sample) and the plug-in for Windows (VST3, CLAP). No secrets. The Mac app and its Audio Unit are built, signed and
+# notarised on a Mac by tools/release.sh, which also drafts the release with these builds (GitHub's macOS minutes
+# cost several of Linux's).
 name: build
 
 on:
@@ -44,3 +46,83 @@ jobs:
             fm1/build/quod.fwsc
             fm1/build/host/quod.wav
             fm1/build/host/*.png
+
+  web:
+    runs-on: ubuntu-24.04
+    needs: firmware                             # (the site carries the firmware this commit built)
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - run: rustup target add wasm32-unknown-unknown
+      - run: sudo apt-get install -y clang llvm   # (Ubuntu's clang has WebAssembly; llvm-ar archives it)
+      - uses: actions/download-artifact@v4
+        with:
+          name: quod-fm1
+          path: fm1/build
+      - name: Build
+        run: web/build.sh web/dist fm1/build/quod.fwsc dev
+        env:
+          CC_wasm32_unknown_unknown: clang
+          AR_wasm32_unknown_unknown: llvm-ar
+      - name: The same sound as the native build
+        run: |
+          native=$(cargo run -q --release -p quod-core --example render)
+          wasm=$(node web/test/parity.mjs | cut -d' ' -f1-4)
+          echo "native: $native"; echo "wasm:   $wasm"
+          [ "$native" = "$wasm" ]
+      - uses: actions/upload-artifact@v4
+        with:
+          name: quod-site                       # (the page and this commit's firmware, ready to serve)
+          path: web/dist
+
+  plugin-windows:
+    runs-on: windows-2022
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Build (VST3, CLAP)
+        run: cargo xtask bundle quod-plugin --release
+        env:
+          CC: clang-cl                          # (MSVC's own cl has no __atomic builtins; clang-cl comes with the runner)
+      # Loaded and played on Windows by the plug-in testers (pinned releases): pluginval for the VST3 (loading, audio
+      # at several rates and block sizes, parameters, state, and its panel), clap-validator for the CLAP.
+      - name: Testers
+        run: |
+          curl -fsSL -o pv.zip https://github.com/Tracktion/pluginval/releases/download/v1.0.4/pluginval_Windows.zip
+          curl -fsSL -o cv.zip https://github.com/free-audio/clap-validator/releases/download/0.4.1/clap-validator-0.4.1-127-g152b982-windows.zip
+          mkdir -p testers && unzip -qo pv.zip -d testers && unzip -qo cv.zip -d testers
+          find testers -name '*.exe'
+      - name: pluginval (VST3)
+        run: |
+          "$(find testers -name pluginval.exe | head -1)" --strictness-level 5 --skip-gui-tests --validate target/bundled/Quod.vst3
+      - name: OpenGL for the panel
+        # (the runner has no graphics driver, so Windows' own OpenGL 1.1 lacks what the panel needs: Mesa's software
+        #  renderer, beside pluginval, where Windows looks first for opengl32.dll)
+        run: |
+          curl -fsSL -o mesa.7z https://github.com/pal1000/mesa-dist-win/releases/download/26.2.4/mesa3d-26.2.4-release-msvc.7z
+          7z x -omesa mesa.7z x64 > /dev/null
+          cp mesa/x64/*.dll "$(dirname "$(find testers -name pluginval.exe | head -1)")/"
+      - name: pluginval (VST3, its panel)
+        env:
+          GALLIUM_DRIVER: llvmpipe
+        run: |              # (and the panel draws its screen: a missing texture fails it too)
+          "$(find testers -name pluginval.exe | head -1)" --strictness-level 5 --validate target/bundled/Quod.vst3 \
+            2>&1 | tee pluginval-panel.txt
+          ! grep -q "Failed to find texture" pluginval-panel.txt
+      - name: clap-validator (CLAP)
+        # (its state tests are left out: they fail in nih-plug's CLAP wrapper, which loads a state without asking the
+        #  host to rescan the parameters, and trusts a state's length; see README.md, The plug-in)
+        run: |
+          "$(find testers -name clap-validator.exe | head -1)" validate --only-failed \
+            -x 'state-reproducibility|state-invalid-random' target/bundled/Quod.clap
+      - uses: actions/upload-artifact@v4
+        with:
+          name: quod-plugin-windows
+          path: |
+            target/bundled/Quod.vst3
+            target/bundled/Quod.clap

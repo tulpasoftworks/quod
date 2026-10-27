@@ -83,6 +83,9 @@ static struct {
     int8_t lock[STEPS][7];                      /* each step's planets, NOLOCK or 0..100 */
     int8_t oct;
 } st;
+/* (a backup, engine/quod_engine.h, is these bytes on the FM-1 and on every computer: a change here is a new
+ * STORE_VER) */
+_Static_assert(sizeof st == 172u, "the state's layout changed: raise STORE_VER");
 static volatile int16_t pe[P_COUNT];            /* the controls in effect: the knobs, with the playing step's locks */
 /* The probe (tools/fm1_probe.py drives the FM-1 over USB-MIDI, channel 16): stages can be bypassed to find
  * what makes a sound, and TONE replaces everything with a pure 441 Hz sine to test the path out. */
@@ -1304,6 +1307,7 @@ static void draw_status(void)                   /* rows 222..239 */
         q = put(s, "AUDIO "); q = put_num(q, audio_us_max, 1); q = put(q, " US  ");
         q = put_num(q, ui_fps, 1); put(q, " FPS");
     }
+    if (held_btn(BTN_GLO)) { q = put(s, "QUOD "); put(q, Q_VERSION); }   /* (GLO held: the version) */
     qg_text(6, 222, &QFONT_S, s, rec_on && !step_mode ? QRGB(255, 59, 48)
                                 : sph_rgb(sph_root_rgb[0], sph_root_rgb[1], sph_root_rgb[2], 32767));   /* (the screen's colour) */
     if (dirty) qg_text(228, 222, &QFONT_S, "*", QC_GREY);

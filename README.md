@@ -7,8 +7,9 @@ gathers around it: above the root they are **angels**, below it **demons**, and 
 **heaven** and **hell**. Playing another note doesn't start a new sound; the whole cluster *flows* there, each voice
 a weight moving through syrup. You don't play notes on it so much as steer it.
 
-It runs on the M-VAVE FM-1 (a small keyboard with seven encoders and a 240 x 240 screen, which it was made for) and on
-a Mac as an Audio Unit instrument with its own app.
+It runs on the M-VAVE FM-1 (a small keyboard with seven encoders and a 240 x 240 screen, which it was made for), on
+a Mac as an Audio Unit instrument with its own app, as a VST3 and CLAP plug-in (Windows), and in a browser, which can
+also install it on an FM-1.
 
 ## How it works
 
@@ -142,6 +143,7 @@ and everything returns to how you left it.
 | SAVE | keep everything |
 | HOME | back to the cosmos |
 | HOME + REC held 1 s / SHOWCASE | the showcase |
+| GLO, held (the FM-1) | the firmware's version on the status row: QUOD 0.2 |
 | MIDI | notes set the root; CC 20..26 turn the seven knobs |
 
 The knobs accelerate, as on an Elektron: turned slowly, a detent is one step; turned quickly, up to three, so about
@@ -159,7 +161,17 @@ and installs over USB-MIDI:
     ./build.sh                                  # -> build/quod.fwsc
     python3 tools/fm1_install.py build/quod.fwsc
 
-To get back: hold OCT- while switching on (USB rescue), then install any firmware. More in `fm1/README.md`.
+Or from the browser's Quod, without Python: [ FLASH ] (below). To get back: hold OCT- while switching on (USB
+rescue), then install any firmware. More in `fm1/README.md`.
+
+The FM-1 knows its firmware by an identity: Quod's is `FM-1_Q` and its version X.Y as two digits (`FM-1_Q02` is
+Quod 0.2; `FM-1_Q00` a development build), so it can't be taken for Felucca's or Dinghy's (`FM-1_9XY`). Felucca's
+web installer and M-VAVE's updater read only digits there: to leave Quod with them, start the FM-1 in its USB rescue
+first (it is `FM-1_000` there). Whether M-VAVE's own firmware installs an `FM-1_Q` package hasn't been tried yet.
+
+Quod's state (the controls, the steps, their notes and locks) goes to a file and back over the same USB-MIDI:
+`fm1_install.py --backup FILE.quodstate`, `--restore FILE.quodstate`. A `.quodstate` file is the same on the FM-1,
+in the browser, in the Mac app (File > Open / Save State) and in the plug-in.
 
 ## The Audio Unit (macOS 13 or later)
 
@@ -181,15 +193,69 @@ App Store wants a Developer ID certificate and notarisation.
   encoders are labelled with what each turns now. Drag an encoder up or down, or scroll on it; Shift-click latches a
   button.
 - **The sound** is computed at 44.1 kHz, a millisecond at a time as on the FM-1, and resampled to the host's rate.
+- **The app's menus**: About Quod (its version), and File > Open / Save State for a `.quodstate` file.
 - **Up to eight instances** at once, each its own instrument. The controls are automatable parameters; the project
   keeps the controls, steps, notes and locks.
 - **`apple/Tools/quod_film.m`** films the Audio Unit offline (its sound at a host's rate and its panel at 30 fps),
   pressing SHOWCASE at 5 s. Its build line is at its top.
 
+## In a browser
+
+`web/` is Quod in a browser: the engine (`engine/`, with Quod in it) compiled to WebAssembly by a Rust crate
+(`crates/quod-wasm`) and played in an AudioWorklet at 44.1 kHz, sample for sample the native build's
+(`web/test/parity.mjs` checks it), around the FM-1's panel. The computer's keys and any MIDI input play it.
+
+    rustup target add wasm32-unknown-unknown   # once; on a Mac also brew install llvm (Apple's clang has no WebAssembly)
+    web/build.sh                               # -> web/dist, with fm1/build/quod.fwsc if it is there
+    python3 -m http.server -d web/dist
+
+The panel is the Mac app's, with a volume knob in the encoders' empty top-left place (drag it, or click it to mute).
+SAVE keeps everything in this browser; the page shows its version under [ source ].
+
+Both of these need Web MIDI with SysEx (Chrome or Edge), and both open over the sim's screen, its sound faded out and
+the page dimmed:
+
+- **[ FLASH ]** (Install Quod on FM-1) installs Quod on an FM-1, one step at a time, on Felucca's updater (`fm1/web`,
+  GPL). The FM-1 can't send its firmware back over USB-MIDI, so before it installs anything it wants a way back: on
+  an FM-1 running Quod, Quod's state saved to a file; on M-VAVE's firmware, M-VAVE's own package for the version it
+  runs (V15 or V16, checked against its SHA-256 in the page, never uploaded); on any other, that package tested on the
+  FM-1 itself (its own checks, stopped before anything is written). Then it checks the FM-1 comes back as Quod. It
+  installs the official firmware back the same way.
+- **[ LINK ]** sends Quod's settings (a `.quodstate`) from the sim to an FM-1 running Quod, or from the FM-1 to the
+  sim, drawn as a trade in a Game Boy's window (`web/trade.js`, its two machines as pixel art).
+
+Every release carries this site with its firmware as `quod-site.zip`, ready for any static host; the latest is at
+https://github.com/tulpasoftworks/quod/releases/latest/download/quod-site.zip. CI builds the same for every push
+(the `quod-site` artifact).
+
+## The plug-in (VST3, CLAP)
+
+`crates/quod-plugin` is Quod as a VST3 and CLAP instrument, on [nih-plug](https://github.com/robbert-vdh/nih-plug):
+as the Audio Unit is, eight instances at once, resampled to the host's rate, the controls automatable, the project
+keeping the controls, steps, notes and locks, and the FM-1's panel (its version in the corner). CI builds it for
+Windows on every push and runs it through pluginval (the VST3) and clap-validator (the CLAP) there; it hasn't been
+played in a Windows host yet.
+
+Installing it on Windows: unzip `Quod-X.Y-Windows.zip` (from a release), copy the `Quod.vst3` folder into
+`C:\Program Files\Common Files\VST3` (Windows asks for an administrator there), and rescan the plug-ins in the
+host: Quod is an instrument by Tulpa SoftWorks. For a CLAP host, `Quod.clap` goes in
+`C:\Program Files\Common Files\CLAP`. The builds aren't signed; a host loads them all the same.
+
+Building it:
+
+    cargo xtask bundle quod-plugin --release   # -> target/bundled/Quod.vst3, Quod.clap (for this computer)
+    tools/plugin-windows.sh 0.2                # -> target/Quod-0.2-Windows.zip, cross-built on a Mac (cargo-xwin)
+
+On Windows itself it builds with `CC=clang-cl` (MSVC's own cl has no `__atomic` builtins). The CLAP passes
+clap-validator but for its state tests, which fail in nih-plug's CLAP wrapper (it loads a state without asking the
+host to rescan the parameters); the VST3 has its own wrapper.
+
 ## Releases
 
-`tools/release.sh X.Y` builds a release on a Mac and drafts it on GitHub: the FM-1 firmware (`quod-X.Y.fwsc`) and
-the app with its Audio Unit, signed with a Developer ID and notarised by Apple. The credentials stay in the Mac's
+`tools/release.sh X.Y` builds a release on a Mac and drafts it on GitHub: the FM-1 firmware (`quod-X.Y.fwsc`), the
+app with its Audio Unit, signed with a Developer ID and notarised by Apple, the plug-in for Windows
+(`Quod-X.Y-Windows.zip`, cross-built with `tools/plugin-windows.sh`), and the browser's Quod with that firmware
+(`quod-site.zip`). The credentials stay in the Mac's
 keychain; the script's head lists what it needs once. The draft is published from its GitHub page.
 
 ## Running it on something else
@@ -197,7 +263,9 @@ keychain; the script's head lists what it needs once. The draft is published fro
 Quod is integer C in one translation unit, with no dependencies. A host defines what `src/quod_port.h` lists (time,
 keys and knobs, MIDI, settings, a screen to blit strips to), then includes `src/quod.c` with `src/` and `gen/` on the
 include path. Quod gives back `app_audio` (44.1 kHz, stereo), `app_tick_ms` (the physics, once a millisecond), and
-`quod_init` / `quod_step` (the main loop). `apple/Engine` is a complete example.
+`quod_init` / `quod_step` (the main loop). `engine/` is a complete example, and the Audio Unit's, the browser's and
+the plug-in's engine: Quod compiled once per instrument, a millisecond at a time, with a resampler and a backup
+format (`engine/quod_engine.h`); `crates/quod-core` is it for Rust.
 
 | Path | What |
 | --- | --- |
@@ -206,14 +274,19 @@ include path. Quod gives back `app_audio` (44.1 kHz, stereo), `app_tick_ms` (the
 | `src/qlib.h`, `src/qgfx.h` | sine, pitch, text; the strip canvas, lines, rectangles, text |
 | `gen/quod_font.h`, `tools/gen_font.py` | the text font, from `art/fonts/ter-u16n.bdf` |
 | `gen/quod_splash.h`, `tools/gen_splash.py` | the splash and the page titles: the hands from a scan of the engraving (not included), the titles from `art/fonts` (Pillow) |
-| `apple/` | the Audio Unit and its app (`Engine/`: the port and the resampler; `Extension/`: the AU and its panel) |
-| `fm1/` | the FM-1 firmware: the platform, the host (`firmware/src/quod.c`), the build and the installer (GPL) |
+| `engine/` | the engine the Audio Unit, the browser and the plug-in share: the port, the slots, the resampler, the clock |
+| `apple/` | the Audio Unit and its app (`Extension/`: the AU and its panel) |
+| `crates/` | the engine for Rust (`quod-core`), in the browser (`quod-wasm`), as a plug-in (`quod-plugin`) |
+| `web/` | the browser's Quod: the panel, the worklet, [ FLASH ] (`flash.js`, GPL) |
+| `fm1/` | the FM-1 firmware: the platform, the host (`firmware/src/quod.c`), the build and the installers (`tools/`, `web/`) (GPL) |
 
 ## Licence
 
 MIT, see `LICENSE`, except `fm1/`: the FM-1 firmware's platform and host are GPL-3.0-only (`fm1/LICENSE`,
-`fm1/LICENSING.md`), and a firmware built from them with Quod is a whole under the GPL. Quod's own sources stay MIT;
-nothing outside `fm1/` includes anything in it. The fonts in `art/fonts` (SIL Open Font License), the engraving the
+`fm1/LICENSING.md`), and a firmware built from them with Quod is a whole under the GPL; and `web/flash.js`, the
+browser's [ FLASH ], GPL-3.0-only as the updater it runs on (`fm1/web`, Felucca's). A VST3 built from
+`crates/quod-plugin` links nih-plug's VST3 bindings (GPL-3.0), so it too is a whole under the GPL; the CLAP is not.
+Quod's own sources stay MIT; nothing else outside `fm1/` includes anything in it. The fonts in `art/fonts` (SIL Open Font License), the engraving the
 splash's hands come from (public domain), and what is generated from them in `gen/`, keep their own terms: see
 `THIRD-PARTY-NOTICES.md`. The app carries these in its bundle (`Contents/Resources/Licenses`), and each release has
 them in `Quod-X.Y-licenses.zip`.

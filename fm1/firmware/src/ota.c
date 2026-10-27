@@ -4,6 +4,7 @@
  *
  * The updater talks SysEx (F0 pack7(00 59 cmd len24 body chk) F7):
  *   cmd 0x11  handshake -> we answer our package identity (FELUCCA_ID)
+ *   other commands outside a session: the app's (OTA_APP_CMD), if it has any
  *   F0 22 24 35 7F F7  upgrade -> ota_session(): pull parts of the package
  *     with cmd 0x30 read requests, check them, stage the package's update
  *     loader at 0xE0000 (outside Felucca's store), ask 0xE0000000 ("success"),
@@ -161,12 +162,17 @@ static uint32_t ota_take(void)
     return d;
 }
 
-/* main loop, outside a session: answer handshakes */
+/* main loop, outside a session: answer handshakes; the app's own commands (OTA_APP_CMD(cmd, body, n), when the
+ * app defines it) get the other well-formed messages */
 static void ota_service(void)
 {
     uint32_t d = ota_take();
     if (d == 7u && ota_dec[2] == 0x11)
         ota_reply_identity();
+#ifdef OTA_APP_CMD
+    else if (d && ota_dec[2] != 0x30)
+        OTA_APP_CMD(ota_dec[2], ota_dec + 6, d - 7u);
+#endif
 }
 
 /* one read request (3 tries x 5 s); data -> dst */

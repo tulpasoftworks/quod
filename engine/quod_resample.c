@@ -1,6 +1,8 @@
 /* SPDX-License-Identifier: MIT */
-/* See quod_resample.h. Copyright (c) 2026 Kip DeCastro. See ../../LICENSE. */
+/* See quod_resample.h. Copyright (c) 2026 Kip DeCastro. See ../LICENSE. */
+#define _USE_MATH_DEFINES                       /* (M_PI on Windows) */
 #include <math.h>
+#include <stdlib.h>
 #include <string.h>
 #include "quod_resample.h"
 
@@ -39,8 +41,11 @@ void quod_rs_render(quod_rs_t *rs, float *l, float *r, uint32_t n)
         uint32_t i0 = (uint32_t)rs->x, j, p;
         float fr, sl = 0, sr = 0;
         const float *t0, *t1, *xl, *xr;
-        if (i0 + HALF >= rs->have) {            /* more input: first drop what no output needs now */
-            uint32_t drop = i0 + 1 - HALF, k = 256;
+        while (i0 + HALF >= rs->have) {         /* more input: first drop what no output needs now (all of it, at a
+                                                 * low rate, where an output passes more input than the buffer
+                                                 * holds: then input is taken and dropped until it catches up) */
+            uint32_t drop = i0 + 1 > HALF ? i0 + 1 - HALF : 0, k = 256;
+            if (drop > rs->have) drop = rs->have;
             memmove(rs->bl, rs->bl + drop, (rs->have - drop) * sizeof *rs->bl);
             memmove(rs->br, rs->br + drop, (rs->have - drop) * sizeof *rs->br);
             rs->have -= drop;
@@ -70,3 +75,11 @@ void quod_rs_render(quod_rs_t *rs, float *l, float *r, uint32_t n)
         rs->x += rs->step;
     }
 }
+
+quod_rs_t *quod_rs_new(const quod_slot_t *src, double out_rate)
+{
+    quod_rs_t *rs = calloc(1, sizeof *rs);
+    if (rs) quod_rs_init(rs, src, out_rate);
+    return rs;
+}
+void quod_rs_free(quod_rs_t *rs) { free(rs); }

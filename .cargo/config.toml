@@ -1,0 +1,7 @@
+[alias]
+xtask = "run --package xtask --release --"
+
+# Windows: the C runtime linked in, so the plug-in loads without Microsoft's Visual C++ redistributable installed
+[target.x86_64-pc-windows-msvc]
+rustflags = ["-C", "target-feature=+crt-static",
+             "-C", "link-arg=/IGNORE:4099"]   # (Microsoft's static libraries name debug files only Microsoft has)

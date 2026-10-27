@@ -11,6 +11,8 @@ the FM-1 restarts and the installed identity is checked.
 
   fm1_install.py PACKAGE.fwsc [--port NAME] [--yes] [--force]
   fm1_install.py --info [--port NAME]
+  fm1_install.py --backup FILE.quodstate [--port NAME]    Quod's state (what it plays now) to a file
+  fm1_install.py --restore FILE.quodstate [--port NAME]   ... and back: it plays it, and saves it
 
 If the FM-1 is still in update mode (an earlier install was cut off), the
 install finishes the write. Needs mido with python-rtmidi.
@@ -19,7 +21,7 @@ Exit codes: 0 done, 1 cancelled or other error, 2 bad arguments or package,
 3 FM-1 not found, 4 connection lost or the device stopped, 5 timeout (no
 loader / no restart), 6 wrong model, another identity after the install, or the
 FM-1 is in the update mode of another firmware (only SLOOP's own loader,
-ota-FM-1_9XX, is resumed).
+ota-FM-1_9XX, is resumed), 7 the state backup or restore failed.
 """
 import argparse
 import queue
@@ -40,7 +42,12 @@ DELAY = {"open": 0.3, "start": 2.0, "reply": 0.01, "loader": 3.0, "reboot": 3.0,
          "poll": 1.0, "hs": 1.0, "idle_check": 8.0, "idle_write": 180.0,
          "wait_loader": 30.0, "wait_reboot": 40.0}
 
-EXIT = {"usage": 2, "badpkg": 2, "notfound": 3, "model": 6, "lost": 4, "stopped": 4, "badreq": 4,
+QUOD_GET, QUOD_STATE, QUOD_PUT, QUOD_PUT_RC = 0x51, 0x52, 0x53, 0x54   # Quod's state (firmware/src/quod.c)
+QUOD_ID = re.compile(r"FM-1_Q\d\d")             # Quod's identity: FM-1_Q and its version X.Y (FM-1_Q00: a dev build)
+QUOD_RC = {1: "not a Quod state file", 2: "the file is damaged", 3: "a state of another version of Quod",
+           4: "the FM-1's flash failed", 5: "Quod isn't running (USB rescue?)"}
+
+EXIT = {"state": 7, "usage": 2, "badpkg": 2, "notfound": 3, "model": 6, "lost": 4, "stopped": 4, "badreq": 4,
         "noloader": 5, "noreturn": 5, "mismatch": 6, "foreign": 6}
 
 
@@ -96,6 +103,26 @@ def parse_request(pkt):
     return u[6], int.from_bytes(u[7:11], "little"), int.from_bytes(u[11:14], "little")
 
 
+def app_msg(cmd, body=b""):
+    """one of the app's own commands, in the updater's framing (firmware/src/ota.c)"""
+    n = len(body)
+    m = bytes([0x00, 0x59, cmd, n & 0xFF, (n >> 8) & 0xFF, 0]) + bytes(body)
+    return b"\xF0" + pack7(m + bytes([~sum(body) & 0xFF])) + b"\xF7"
+
+
+def parse_app(pkt, cmd):
+    """-> the body of an app message `cmd`, or None"""
+    if len(pkt) < 2 or pkt[0] != 0xF0 or pkt[-1] != 0xF7:
+        return None
+    u = unpack7(pkt[1:-1])
+    if len(u) < 7 or u[:3] != bytes([0x00, 0x59, cmd]):
+        return None
+    n = u[3] | u[4] << 8 | u[5] << 16
+    if len(u) < n + 7 or ~sum(u[6:6 + n]) & 0xFF != u[6 + n]:
+        return None
+    return u[6:6 + n]
+
+
 class Identity:
     def __init__(self, text, model, version):
         self.text, self.model, self.version = text, model, version
@@ -112,8 +139,8 @@ def parse_identity(pkt):
     if len(d) != 34 or d[:3] != b"\x00\x59\x11":
         return None
     txt = d[6:33].rstrip(b"\0").decode("latin-1")
-    m = re.fullmatch(r"([^_]+)_(\d+)", txt)
-    return Identity(txt, m[1], int(m[2])) if m else None
+    m = re.fullmatch(r"([^_]+)_([0-9A-Z]+)", txt)    # (digits, or letters too: Quod is FM-1_QXY)
+    return Identity(txt, m[1], int(re.sub(r"\D", "", m[2]) or 0)) if m else None
 
 
 # --------------------------------------------------------------- package ---
@@ -365,6 +392,59 @@ class Updater:
         return self.verify(product, step)
 
 
+# ---------------------------------------------------------- Quod's state ---
+
+def ask_app(link, cmd, body, want, secs=3.0):
+    link.drain()
+    if not link.send(app_msg(cmd, body)):
+        return None
+    end = time.monotonic() + secs
+    while (left := end - time.monotonic()) > 0:
+        p = link.read(left)
+        if p is None:
+            break
+        r = parse_app(p, want)
+        if r:
+            return r
+    return None
+
+
+def quod_device(up):
+    dev = up.find()
+    if not dev:
+        raise not_found(up)
+    if dev.id.loader or not QUOD_ID.fullmatch(dev.id.text):
+        dev.link.close()
+        raise InstallError("state", f"the FM-1 runs {dev.id.text}, not Quod (FM-1_QXY): it has no Quod state")
+    return dev
+
+
+def state_backup(up):
+    """-> the state record (a .quodstate file's bytes)"""
+    dev = quod_device(up)
+    try:
+        r = ask_app(dev.link, QUOD_GET, b"", QUOD_STATE)
+    finally:
+        dev.link.close()
+    if r is None:
+        raise InstallError("state", "the FM-1 didn't answer: its Quod is older than the state backup (install this one)")
+    if r[0]:
+        raise InstallError("state", QUOD_RC.get(r[0], f"error {r[0]}"))
+    return bytes(r[1:])
+
+
+def state_restore(up, rec):
+    dev = quod_device(up)
+    try:
+        r = ask_app(dev.link, QUOD_PUT, rec, QUOD_PUT_RC)
+    finally:
+        dev.link.close()
+    if r is None:
+        raise InstallError("state", "the FM-1 didn't answer: its Quod is older than the state backup (install this one)")
+    if r[0]:
+        raise InstallError("state", QUOD_RC.get(r[0], f"error {r[0]}"))
+
+
 # ------------------------------------------------------------------- CLI ---
 
 def load_package(path, force):
@@ -373,7 +453,7 @@ def load_package(path, force):
     except OSError as e:
         raise InstallError("badpkg", f"cannot read {path}: {e.strerror}")
     product = product_of(raw)
-    if not re.fullmatch(r"[^_]+_\d+", product):
+    if not re.fullmatch(r"[^_]+_[0-9A-Z]+", product):
         raise InstallError("badpkg", f"{path}: not an FM-1 package (identity {product!r})")
     if LOADER_MARK not in raw and not force:
         raise InstallError("badpkg", f"{path}: no Felucca update loader in this package; "
@@ -465,6 +545,20 @@ class Progress:
 
 def run(a, backend, out, ask):
     up = Updater(backend, a.port)
+    if a.backup:
+        rec = state_backup(up)
+        with open(a.backup, "wb") as f:
+            f.write(rec)
+        print(f"Quod's state -> {a.backup} ({len(rec)} bytes)", file=out)
+        return 0
+    if a.restore:
+        try:
+            rec = open(a.restore, "rb").read()
+        except OSError as e:
+            raise InstallError("usage", f"cannot read {a.restore}: {e.strerror}")
+        state_restore(up, rec)
+        print(f"{a.restore} -> the FM-1: it plays it, and has saved it", file=out)
+        return 0
     if a.info:
         dev = up.find()
         if not dev:
@@ -506,9 +600,11 @@ def main(argv=None, backend=None, out=sys.stdout, ask=ask_tty):
     ap.add_argument("--port", metavar="NAME", help="MIDI port to use (part of its name)")
     ap.add_argument("--yes", action="store_true", help="do not ask for confirmation")
     ap.add_argument("--force", action="store_true", help="install a package without the Felucca loader marker")
+    ap.add_argument("--backup", metavar="FILE", help="save Quod's state (what it plays now) to FILE.quodstate")
+    ap.add_argument("--restore", metavar="FILE", help="send FILE.quodstate to Quod: it plays it and saves it")
     a = ap.parse_args(argv)
-    if bool(a.info) == bool(a.package):
-        ap.error("give a PACKAGE.fwsc or --info")
+    if sum(map(bool, (a.info, a.package, a.backup, a.restore))) != 1:
+        ap.error("give a PACKAGE.fwsc, --info, --backup FILE or --restore FILE")
     try:
         if backend is None:
             try:

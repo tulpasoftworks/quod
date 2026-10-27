@@ -1,8 +1,9 @@
 #!/bin/sh
 # SPDX-License-Identifier: MIT
-# A release, built on this Mac and uploaded to GitHub as a draft: the FM-1 firmware (fm1/build.sh --release) and
-# the app carrying the Audio Unit, signed with a Developer ID and notarised by Apple. The credentials stay in this
-# Mac's keychain; nothing of them goes to GitHub.
+# A release, built on this Mac and uploaded to GitHub as a draft: the FM-1 firmware (fm1/build.sh --release), the app
+# carrying the Audio Unit, signed with a Developer ID and notarised by Apple, the plug-in for Windows (VST3, CLAP),
+# cross-built here (tools/plugin-windows.sh), and the browser's Quod with this firmware (quod-site.zip). The
+# credentials stay in this Mac's keychain; nothing of them goes to GitHub.
 #   tools/release.sh X.Y        (one digit each: the FM-1's package identity holds two)
 #
 # Needs, once:
@@ -14,6 +15,8 @@
 #     (QUOD_NOTARY_PROFILE names another)
 #   - the FM-1's toolchain and SDK files (fm1/tools/get_toolchain.sh, fm1/tools/get_sdk.sh), and Docker running
 #   - gh, logged in, with push access to origin
+#   - for the plug-in for Windows: cargo install cargo-xwin, rustup target add x86_64-pc-windows-msvc, brew install llvm
+#   - for the site: rustup target add wasm32-unknown-unknown (and the same llvm)
 set -eu
 cd "$(dirname "$0")/.."
 V="${1:-}"
@@ -68,6 +71,14 @@ xcrun stapler staple "$APP"
 spctl --assess --type execute --verbose=2 "$APP"
 ditto -c -k --keepParent "$APP" "$OUT/Quod-$V-macOS.zip"
 
+echo "== the site (the sim, [ FLASH ], [ LINK ]) with this firmware: quod-site.zip, for any static host"
+web/build.sh "$OUT/site" "$OUT/quod-$V.fwsc" "$V"
+(cd "$OUT/site" && zip -qr ../quod-site.zip .)
+
+echo "== the plug-in for Windows (VST3, CLAP), cross-built here"
+tools/plugin-windows.sh "$V"
+cp "target/Quod-$V-Windows.zip" "$OUT/"
+
 echo "== the licences, for the firmware and the app (the fonts' OFL, the GPL of the firmware's platform)"
 mkdir -p "$OUT/Quod-$V-licenses"
 cp LICENSE THIRD-PARTY-NOTICES.md art/fonts/Terminus-OFL.txt art/fonts/UnifrakturMaguntia-OFL.txt "$OUT/Quod-$V-licenses/"
@@ -82,14 +93,23 @@ cat > "$OUT/notes.md" <<EOF
 **Mac** (macOS 13 or later): unzip \`Quod-$V-macOS.zip\`, move Quod.app to Applications and open it once; that
 registers the Audio Unit (Tulpa SoftWorks: Quod) for Logic, GarageBand and other hosts.
 
-**M-VAVE FM-1**: install \`quod-$V.fwsc\` over USB with \`python3 fm1/tools/fm1_install.py quod-$V.fwsc\` (from the
+**Windows**: unzip \`Quod-$V-Windows.zip\`; copy Quod.vst3 to C:\\Program Files\\Common Files\\VST3 (or Quod.clap
+to C:\\Program Files\\Common Files\\CLAP). The builds aren't signed: Windows may ask before the first load.
+
+**In a browser**: the same Quod, with [ FLASH ], which installs it on an FM-1 from Chrome or Edge, and [ LINK ],
+which sends settings between the page and the FM-1. \`quod-site.zip\` is that site with this firmware, for any
+static host; the latest is always at https://github.com/tulpasoftworks/quod/releases/latest/download/quod-site.zip.
+
+**M-VAVE FM-1**: install from the browser's [ FLASH ], or \`quod-$V.fwsc\` over USB with \`python3 fm1/tools/fm1_install.py quod-$V.fwsc\` (from the
 source of this tag; the installer needs \`pip3 install mido python-rtmidi\` first). To get back: hold OCT- while switching
 on, then install any firmware.
 
-The firmware is free software under the GPL-3.0; its complete source is this tag. Quod itself is MIT. The licences
+The firmware and the VST3 are free software under the GPL-3.0 (the VST3 links nih-plug's GPL VST3 bindings); their
+complete source is this tag. Quod itself is MIT. The licences
 (MIT, the GPL, the fonts' Open Font License) and the third-party notices are in \`Quod-$V-licenses.zip\`, and inside
 the app (Contents/Resources/Licenses).
 EOF
 gh release create "$TAG" --draft --verify-tag --title "Quod $V" --notes-file "$OUT/notes.md" \
-    "$OUT/quod-$V.fwsc" "$OUT/Quod-$V-macOS.zip" "$OUT/Quod-$V-licenses.zip"
+    "$OUT/quod-$V.fwsc" "$OUT/Quod-$V-macOS.zip" "$OUT/Quod-$V-Windows.zip" "$OUT/Quod-$V-licenses.zip" \
+    "$OUT/quod-site.zip"
 echo "release: $TAG drafted: $(gh release view "$TAG" --json url --jq .url)"

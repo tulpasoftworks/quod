@@ -1,0 +1,191 @@
+<!doctype html>
+<!-- SPDX-License-Identifier: MIT. Copyright (c) 2026 Kip DeCastro. See ../LICENSE. (flash.js and fm1/: GPL-3.0) -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quod</title>
+<meta name="description" content="Quod, a drone instrument for the M-VAVE FM-1, in your browser. And [ FLASH ]: put it on your FM-1.">
+<style>
+  @font-face { font-family: "Unifraktur"; src: url("fonts/UnifrakturMaguntia-Book.ttf"); font-display: swap; }
+  :root {
+    --bg: #0b0b0c; --fg: #e7e3da; --dim: #9a958b; --line: #2a2926; --card: #141413;
+    --ok: #7fcf98; --bad: #f08a6e; --accent: #f25940; --gold: #f2bf40;
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--fg);
+         font: 15px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+  .wrap { max-width: 552px; margin: 0 auto; padding: 24px 16px 48px; display: grid; gap: 28px;
+          grid-template-columns: minmax(0, 1fr); }
+  h1 { font: 64px/1 "Unifraktur", serif; margin: 0 0 4px; font-weight: normal; }
+  .lede { color: var(--dim); margin: 0 0 24px; font-size: 13px; }
+  .panel { position: relative; width: 100%; }
+  #panel { display: block; width: 100%; aspect-ratio: 520 / 880; border-radius: 10px; touch-action: none;
+           user-select: none; -webkit-user-select: none; }
+  #power { position: absolute; left: 3.8%; top: 2.2%; width: 92.4%; aspect-ratio: 1; display: grid; place-items: center;
+           background: #000; border: 0; color: var(--fg); font: inherit; cursor: pointer; }
+  #power span { border: 1px solid var(--line); padding: 10px 18px; border-radius: 6px; }
+  #power:hover span { border-color: var(--dim); }
+  #power[hidden] { display: none; }
+  .fm1btn { font: 600 18px/1 ui-monospace, Menlo, Consolas, monospace; letter-spacing: .08em; color: #fff;
+            background: #2b2b2b; border: 2px solid var(--accent); border-radius: 6px; padding: 14px 20px; cursor: pointer;
+            width: 100%; }
+  .fm1btn:hover:not(:disabled) { background: #383838; }
+  .fm1btn:disabled { border-color: var(--line); color: var(--dim); opacity: 1; }
+  .keys { display: grid; gap: 4px; user-select: none; -webkit-user-select: none; container-type: inline-size; }
+  .keys .r { display: flex; gap: 4px; }
+  .keys .k { flex: 0 0 calc(100% / 12 - 4px); aspect-ratio: 1; border: 1px solid var(--line); border-radius: 5px;
+             background: var(--card); display: flex; flex-direction: column; justify-content: space-between;
+             padding: .5cqw .8cqw; font-size: 1.9cqw; color: #4a4843; overflow: hidden; }
+  .keys .k b { font-weight: 600; font-size: 2.2cqw; color: var(--fg); white-space: nowrap; letter-spacing: -.02em; }
+  .keys .k.on { color: var(--dim); border-color: #3a3833; }
+  .keys .k.down { background: #3a3833; border-color: var(--dim); }
+  .keys .k.wide { flex-basis: calc(100% / 12 * 5.5 - 4px); aspect-ratio: auto; }
+  aside section { border-top: 1px solid var(--line); padding: 16px 0; }
+  aside h2 { font-size: 13px; letter-spacing: .1em; text-transform: uppercase; color: var(--dim); margin: 0 0 8px; font-weight: 600; }
+  aside p { margin: 0 0 8px; }
+  kbd { border: 1px solid var(--line); border-radius: 3px; padding: 0 4px; background: var(--card); }
+  button.plain, label.plain { font: inherit; color: var(--fg); background: var(--card); border: 1px solid var(--line);
+                              border-radius: 5px; padding: 6px 10px; cursor: pointer; display: inline-block; }
+  button.plain:hover:not(:disabled), label.plain:hover { border-color: var(--dim); }
+  button:disabled { opacity: .4; cursor: default; }
+  input[type=file] { display: none; }
+  a { color: var(--fg); }
+  .source { text-align: center; }
+  .source a { font: 600 18px/1.2 ui-monospace, Menlo, Consolas, monospace; letter-spacing: .08em; color: var(--fg);
+              text-decoration: none; }           /* (as [ FLASH ] and [ LINK ]) */
+  .source a:hover { color: #fff; }
+  .ver { margin: 10px 0 0; font-size: 11px; letter-spacing: .1em; color: var(--dim); }   /* (as GLO held shows it) */
+  .source a:focus-visible { outline: 2px solid #f2bf40; outline-offset: 3px; }
+  .small { font-size: 13px; color: var(--dim); }
+  dialog { background: var(--card); color: var(--fg); border: 1px solid var(--line); border-radius: 10px; padding: 0;
+           width: min(640px, calc(100vw - 32px)); max-height: calc(100vh - 32px); }
+  dialog::backdrop { background: rgba(0,0,0,.7); }
+  .dlg { padding: 20px 22px; }
+  .dlg h3 { margin: 0 0 4px; font-size: 18px; }
+  .bracket { font: 600 18px/1.2 ui-monospace, Menlo, Consolas, monospace; letter-spacing: .08em; color: var(--fg);
+             background: none; border: 0; padding: 4px 0; cursor: pointer; }   /* (the brackets are the button) */
+  .bracket:hover:not(:disabled) { color: #fff; }
+  .bracket:focus-visible { outline: 2px solid #f2bf40; outline-offset: 3px; }
+  .bracket:disabled { color: var(--dim); opacity: 1; cursor: default; }
+  .fm1 { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; }
+  .fm1 { margin-bottom: 28px; }                  /* (room before the keys' divider) */
+  .fm1 .small:empty { display: none; }
+  .fm1 .small { margin: 8px 0 0; }
+  @media (max-width: 420px) { .fm1 { grid-template-columns: minmax(0, 1fr); } }
+  .dlg-h { display: flex; align-items: baseline; }
+  .dlg-h h2 { font-size: 17px; margin: 0; letter-spacing: .06em; }
+  .dlg-h .x { margin-left: auto; float: none; }   /* (the close button at the right edge) */
+  .dlg h3 { font-size: 20px; margin: 0 0 6px; text-wrap: balance; }
+  .lead { margin: 0 0 12px; max-width: 60ch; }
+  .dlg .fm1btn { width: auto; font-size: 15px; padding: 11px 16px; }
+  .rail { display: flex; gap: 6px; margin: 14px 0 18px; }
+  .rail div { flex: 1; min-width: 0; }
+  .rail i { display: block; height: 3px; border-radius: 2px; background: var(--line); }
+  .rail span { display: block; font-size: 11px; margin-top: 5px; color: #5d5951; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .rail .done i { background: var(--dim); } .rail .done span { color: var(--dim); }
+  .rail .now i { background: var(--accent); } .rail .now span { color: var(--fg); }
+  .foot { display: flex; align-items: center; margin-top: 20px; padding-top: 14px; border-top: 1px solid var(--line); }
+  .foot .fm1btn { margin-left: auto; }
+  button.link { font: inherit; background: none; border: 0; color: var(--dim); text-decoration: underline; cursor: pointer; padding: 0; }
+  .agree { display: flex; gap: 8px; align-items: flex-start; flex-basis: 100%; cursor: pointer; }
+  .agree input, .what input { accent-color: var(--accent); }
+  .what { display: flex; flex-wrap: wrap; gap: 6px 18px; flex-basis: 100%; }
+  .bracket.heading { cursor: default; display: inline-block; }
+  .moves { display: grid; gap: 6px; margin-top: 8px; justify-items: start; }
+  /* [ FLASH ] and [ LINK ] open over the sim's screen (stage.js places them), fading in with the page dimming */
+  dialog.over-screen { position: fixed; inset: auto; margin: 0; padding: 0; border: 0; background: none; max-width: none;
+                       max-height: none; overflow: visible; opacity: 0; transition: opacity .3s; }
+  dialog.over-screen.shown { opacity: 1; }
+  dialog.over-screen::backdrop { background: rgba(0, 0, 0, 0); transition: background .3s; }
+  dialog.over-screen.shown::backdrop { background: rgba(0, 0, 0, .7); }
+  #flash-dialog .dlg { background: var(--card); border: 1px solid var(--line); border-radius: 10px;
+                       box-shadow: 0 20px 60px rgba(0, 0, 0, .6); }
+  #ln-canvas { display: block; width: 100%; aspect-ratio: 10 / 9; image-rendering: pixelated; background: #fff;
+               border-radius: 4px; cursor: pointer; box-shadow: 0 20px 60px rgba(0, 0, 0, .6); }   /* (a Game Boy's screen: 160 x 144) */
+  #ln-canvas:focus-visible { outline: 2px solid #f2bf40; outline-offset: 3px; }
+  #ln-msg { position: absolute; left: 0; right: 0; top: 100%; margin-top: 10px; text-align: center; }
+  .msg { min-height: 1.5em; margin: 6px 0 0; color: var(--dim); }
+  .msg[data-kind=ok] { color: var(--ok); }
+  .msg[data-kind=bad] { color: var(--bad); }
+  progress { width: 100%; height: 8px; accent-color: var(--accent); }
+  .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .x { float: right; background: none; border: 0; color: var(--dim); font: inherit; font-size: 20px; cursor: pointer; }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div>
+    <h1>Quod</h1>
+    <p class="lede">Drag an encoder up or down, or scroll on it. Shift-click a button to latch it.</p>
+    <div class="panel">
+      <canvas id="panel" aria-label="The FM-1's panel: the screen, seven encoders, the buttons and 27 keys"></canvas>
+      <button id="power"><span>Switch on</span></button>
+    </div>
+    <p class="small" id="debug"></p>
+  </div>
+  <aside>
+    <div class="fm1">
+      <div>
+        <span class="bracket heading">[ FLASH ]</span>
+        <div class="moves">
+          <button class="plain" id="flash">Install Quod on FM-1</button>
+        </div>
+        <p class="small" id="flash-note"></p>
+      </div>
+      <div>
+        <span class="bracket heading">[ LINK ]</span>
+        <div class="moves">
+          <button class="plain" id="ln-send">Send SIM settings to FM-1</button>
+          <button class="plain" id="ln-bring">Send FM-1 settings to SIM</button>
+        </div>
+        <p class="small" id="link-note"></p>
+      </div>
+    </div>
+    <section>
+      <div class="keys" id="keys" aria-label="The computer's keys and what they play"></div>
+      <p class="small" style="margin-top:12px">MIDI in: <span id="midi-ins">switch on to listen</span>. Notes set the
+        root; CC 20..26 turn the knobs.</p>
+    </section>
+    <section class="small source">
+      <a href="https://github.com/tulpasoftworks/quod">[ source ]</a>
+      <p class="ver">QUOD __QUOD_VERSION__</p>
+    </section>
+  </aside>
+</main>
+
+<dialog id="flash-dialog" class="over-screen" aria-label="[ FLASH ]">
+  <div class="dlg">
+    <div class="dlg-h"><h2>[ FLASH ]</h2><button class="x" id="fl-close" aria-label="Close">&times;</button></div>
+    <div id="fl-body"></div>
+    <input type="file" id="fl-file" accept=".fwsc">
+  </div>
+</dialog>
+
+<dialog id="link-dialog" class="over-screen" aria-label="[ LINK ]">
+  <canvas id="ln-canvas" width="160" height="144" tabindex="0" aria-label="The settings going between the sim and the FM-1"></canvas>
+  <p class="msg" id="ln-msg" aria-live="polite"></p>
+</dialog>
+
+<script type="module">
+  import { switchOn, drawKeys } from "./app.js";
+  import { setupFlash } from "./flash.js";
+  import { setupLink } from "./link.js";
+  const $ = (id) => document.getElementById(id);
+  $("power").addEventListener("click", async () => {
+    $("power").firstChild.textContent = "Switching on…";
+    try {
+      await switchOn();
+      $("power").hidden = true;
+    } catch (e) {
+      $("power").firstChild.textContent = `Couldn't switch on: ${e.message}`;
+    }
+  });
+  drawKeys($("keys"));
+  setupFlash();
+  setupLink();
+  if (new URLSearchParams(location.search).has("on")) $("power").click();   // (?on: where sound may start by itself)
+</script>
+</body>
+</html>

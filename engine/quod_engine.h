@@ -1,7 +1,7 @@
 /* SPDX-License-Identifier: MIT */
 /* Quod as an Audio Unit's engine. Quod keeps its state in its own statics, so the engine is compiled once per slot
  * (quod_slots.c): each slot is an instrument of its own, and an AU instance takes a free one.
- * Copyright (c) 2026 Kip DeCastro. See ../../LICENSE. */
+ * Copyright (c) 2026 Kip DeCastro. See ../LICENSE. */
 #pragma once
 #include <stdint.h>
 
@@ -29,6 +29,17 @@ typedef struct {
     const char *(*enc_name)(uint32_t e);        /* what encoder e turns now ("": nothing) */
     int32_t (*enc_level)(uint32_t e, int *lock);   /* where its dial is: 0 .. 32767 (-1: nothing); a step's lock or
                                                  * not (the screen's dial, for the panel's knob) */
+    uint32_t (*backup_get)(void *buf, uint32_t cap);  /* the state as an FM-1 backup (QUOD_BACKUP_MAX at most) */
+    int (*backup_set)(const void *buf, uint32_t n);   /* 0: taken; -1 not a backup, -2 damaged, -3 another version */
 } quod_slot_t;
 
+/* An FM-1 backup (a .quodstate file) is the settings record as the FM-1 keeps it in flash: "DNGY" (LE), the length,
+ * the CRC-32 of what follows, then Quod's state. fm1_install.py --backup, the browser flasher, the app and the
+ * plug-in all read and write it. */
+#define QUOD_BACKUP_MAX 268u
+
 extern const quod_slot_t *const QUOD_SLOT[QUOD_SLOTS];
+
+/* The host's clock: microseconds, monotonic, any start (quod_clock.c; on the web, the Rust crate's). The knobs'
+ * acceleration and the audio's timing read it. */
+uint64_t quod_clock_us(void);
