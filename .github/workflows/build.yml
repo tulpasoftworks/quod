@@ -100,8 +100,16 @@ jobs:
       - name: pluginval (VST3)
         run: |
           "$(find testers -name pluginval.exe | head -1)" --strictness-level 5 --skip-gui-tests --validate target/bundled/Quod.vst3
+      - name: OpenGL for the panel
+        # (the runner has no graphics driver, so Windows' own OpenGL 1.1 lacks what the panel needs: Mesa's software
+        #  renderer, beside pluginval, where Windows looks first for opengl32.dll)
+        run: |
+          curl -fsSL -o mesa.7z https://github.com/pal1000/mesa-dist-win/releases/download/26.2.4/mesa3d-26.2.4-release-msvc.7z
+          7z x -omesa mesa.7z x64 > /dev/null
+          cp mesa/x64/*.dll "$(dirname "$(find testers -name pluginval.exe | head -1)")/"
       - name: pluginval (VST3, its panel)
-        continue-on-error: true                 # (a runner may have no OpenGL for the panel: this one only reports)
+        env:
+          GALLIUM_DRIVER: llvmpipe
         run: |
           "$(find testers -name pluginval.exe | head -1)" --strictness-level 5 --validate target/bundled/Quod.vst3
       - name: clap-validator (CLAP)
