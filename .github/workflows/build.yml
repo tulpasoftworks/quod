@@ -110,8 +110,10 @@ jobs:
       - name: pluginval (VST3, its panel)
         env:
           GALLIUM_DRIVER: llvmpipe
-        run: |
-          "$(find testers -name pluginval.exe | head -1)" --strictness-level 5 --validate target/bundled/Quod.vst3
+        run: |              # (and the panel draws its screen: a missing texture fails it too)
+          "$(find testers -name pluginval.exe | head -1)" --strictness-level 5 --validate target/bundled/Quod.vst3 \
+            2>&1 | tee pluginval-panel.txt
+          ! grep -q "Failed to find texture" pluginval-panel.txt
       - name: clap-validator (CLAP)
         # (its state tests are left out: they fail in nih-plug's CLAP wrapper, which loads a state without asking the
         #  host to rescan the parameters, and trusts a state's length; see README.md, The plug-in)

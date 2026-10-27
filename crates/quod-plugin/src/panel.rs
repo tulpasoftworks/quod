@@ -113,7 +113,8 @@ pub fn editor(params: Arc<QuodParams>, slot: Option<Slot>) -> Option<Box<dyn Edi
     let n = params.controls.len();
     let panel = Panel { slot, tex: None, seq: u32::MAX, down: None, drag: 0.0, scroll: [0.0; 7], latched: 0, show_until: None,
                         engine: vec![i32::MIN; n], msg: String::new() };
-    create_egui_editor(params.editor.clone(), panel, |_, _| {}, move |ctx, setter, p| {
+    // (each opening is a new egui context: the screen's texture is made again in it, not kept from the last one)
+    create_egui_editor(params.editor.clone(), panel, |_, p| { p.tex = None; p.seq = u32::MAX; }, move |ctx, setter, p| {
         ctx.request_repaint_after(Duration::from_millis(33));
         if let Some(s) = p.slot {
             p.sync(s, &params, setter);
