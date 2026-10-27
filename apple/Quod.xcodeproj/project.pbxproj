@@ -7,25 +7,26 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		03D640FC2FDACE1B851F5EA2 /* quod_slot1.c in Sources */ = {isa = PBXBuildFile; fileRef = 48BEE9E8AD5981C6937E42CA /* quod_slot1.c */; };
 		0833D904C51507CA4102886C /* THIRD-PARTY-NOTICES.md in CopyFiles */ = {isa = PBXBuildFile; fileRef = FD0948ABF4C92E8C734D1654 /* THIRD-PARTY-NOTICES.md */; };
-		0F225D76FDA4823A7D90113B /* quod_slot0.c in Sources */ = {isa = PBXBuildFile; fileRef = 5A3B6B60982D895120888664 /* quod_slot0.c */; };
-		14846A0A19058CAAAD45834A /* quod_slot5.c in Sources */ = {isa = PBXBuildFile; fileRef = 005A0B5E12093EC3616C8C72 /* quod_slot5.c */; };
-		297879FD64923D220B03DA16 /* quod_slot3.c in Sources */ = {isa = PBXBuildFile; fileRef = B95D7788783FB97FBC00A8C5 /* quod_slot3.c */; };
+		0E08A1667D08093A3B80797E /* quod_slot0.c in Sources */ = {isa = PBXBuildFile; fileRef = 4D9C75E395C3D1D78CC19FB5 /* quod_slot0.c */; };
 		2E49866843F584E158A47258 /* QuodAU.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = C6834719FBAD31E84EDB17DD /* QuodAU.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		3AACC48FA27F708683210D18 /* quod_slot5.c in Sources */ = {isa = PBXBuildFile; fileRef = D0074771D21035BB72DD790D /* quod_slot5.c */; };
 		42ADAF7394C3540FF40D9E6F /* LICENSE in CopyFiles */ = {isa = PBXBuildFile; fileRef = 73BA5A7EC0000DC7A82A804D /* LICENSE */; };
+		42D51BF5076829B0C2B62654 /* quod_clock.c in Sources */ = {isa = PBXBuildFile; fileRef = 06BDD362DFBC42E0DC00A59A /* quod_clock.c */; };
 		565DCF35DCB0486D0A564900 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 180B22575513E48A991F73C4 /* main.m */; };
-		59E2C507B3E6E4E9573337E2 /* quod_resample.c in Sources */ = {isa = PBXBuildFile; fileRef = 86C10AC1D35392AF4D1CA346 /* quod_resample.c */; };
-		702CE8D55C462CBBD33D4E44 /* quod_slot1.c in Sources */ = {isa = PBXBuildFile; fileRef = 7C48C0998A3A0DE9F281D050 /* quod_slot1.c */; };
-		7D5F3B4D0F35222FDA9C735E /* quod_slot4.c in Sources */ = {isa = PBXBuildFile; fileRef = DC0D3B7C084B4E7AD8E6E1BA /* quod_slot4.c */; };
-		7ECCBBDBDBE1E7A9D174A04B /* quod_slot7.c in Sources */ = {isa = PBXBuildFile; fileRef = BA73C823408245A6712E8E15 /* quod_slot7.c */; };
+		83CE552325ACE74974800D9E /* quod_slot7.c in Sources */ = {isa = PBXBuildFile; fileRef = 89573B5301B84AFA33DA02C1 /* quod_slot7.c */; };
 		B1F4F94653B65864DD8B50B1 /* QuodViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 469EFDC9DB168FABBE9C16E5 /* QuodViewController.m */; };
 		B922C0E4454EF9B8F9732178 /* Terminus-OFL.txt in CopyFiles */ = {isa = PBXBuildFile; fileRef = 10BDF27907BB813BFAFAB4FE /* Terminus-OFL.txt */; };
-		BC315D5C27286955F1386D6A /* quod_slot6.c in Sources */ = {isa = PBXBuildFile; fileRef = 7BD897B7048796931A1B2062 /* quod_slot6.c */; };
 		C51FACD49C8E8F85FD761F66 /* UnifrakturMaguntia-OFL.txt in CopyFiles */ = {isa = PBXBuildFile; fileRef = E1A1B7E16AA89FA6916740EA /* UnifrakturMaguntia-OFL.txt */; };
-		C6A78EEDDEFB142AC20B1A6A /* quod_slot2.c in Sources */ = {isa = PBXBuildFile; fileRef = 649356F34F4C032A1098A1D6 /* quod_slot2.c */; };
-		E072D2F2DFDB5173CD2EAA9B /* quod_slots.c in Sources */ = {isa = PBXBuildFile; fileRef = 400A0F795F2EA289D96AA848 /* quod_slots.c */; };
+		C6875E2B00AFA3ADDEC1254D /* quod_slots.c in Sources */ = {isa = PBXBuildFile; fileRef = 1E2961E499D5592A3EE77D66 /* quod_slots.c */; };
+		C8203B45C94D5C37BA2723A7 /* quod_slot3.c in Sources */ = {isa = PBXBuildFile; fileRef = 3376A7BD8F13188AF3F68D08 /* quod_slot3.c */; };
+		D3588D5FCAA88471CB1A2B98 /* quod_resample.c in Sources */ = {isa = PBXBuildFile; fileRef = AD896238F8477F759B6FDD22 /* quod_resample.c */; };
 		E31A59926A49B59534E32DA5 /* QuodPanelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 206A055D950B5433DE57FE6F /* QuodPanelView.m */; };
 		E9DBD36372B8F86202772887 /* QuodAudioUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C83336D95C627C2CC2F81D1 /* QuodAudioUnit.m */; };
+		F2E7C75B2D0EFF028CAD16B2 /* quod_slot4.c in Sources */ = {isa = PBXBuildFile; fileRef = 0F3FD3D5CFCE8ECDD3E22263 /* quod_slot4.c */; };
+		F41724521404A7498201401F /* quod_slot6.c in Sources */ = {isa = PBXBuildFile; fileRef = 060872BDFD301EC79CB359DD /* quod_slot6.c */; };
+		F69F7A12DFE7515CF380DBBC /* quod_slot2.c in Sources */ = {isa = PBXBuildFile; fileRef = 4018F726A05019972932A91F /* quod_slot2.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,35 +67,36 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		005A0B5E12093EC3616C8C72 /* quod_slot5.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = quod_slot5.c; sourceTree = "<group>"; };
+		060872BDFD301EC79CB359DD /* quod_slot6.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = quod_slot6.c; sourceTree = "<group>"; };
+		06BDD362DFBC42E0DC00A59A /* quod_clock.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = quod_clock.c; sourceTree = "<group>"; };
 		0C83336D95C627C2CC2F81D1 /* QuodAudioUnit.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QuodAudioUnit.m; sourceTree = "<group>"; };
 		0C9AEB3EEC8C82E7AD0962F5 /* QuodViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QuodViewController.h; sourceTree = "<group>"; };
+		0F3FD3D5CFCE8ECDD3E22263 /* quod_slot4.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = quod_slot4.c; sourceTree = "<group>"; };
 		10BDF27907BB813BFAFAB4FE /* Terminus-OFL.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Terminus-OFL.txt"; sourceTree = "<group>"; };
 		11857F998B3D06B082F25754 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		180B22575513E48A991F73C4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		1E2961E499D5592A3EE77D66 /* quod_slots.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = quod_slots.c; sourceTree = "<group>"; };
 		206A055D950B5433DE57FE6F /* QuodPanelView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QuodPanelView.m; sourceTree = "<group>"; };
 		2A96428019E5F099349E473E /* QuodAudioUnit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QuodAudioUnit.h; sourceTree = "<group>"; };
 		2C30A88D9FDBE407B7125B9F /* QuodPanelView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QuodPanelView.h; sourceTree = "<group>"; };
-		400A0F795F2EA289D96AA848 /* quod_slots.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = quod_slots.c; sourceTree = "<group>"; };
+		3376A7BD8F13188AF3F68D08 /* quod_slot3.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = quod_slot3.c; sourceTree = "<group>"; };
+		4018F726A05019972932A91F /* quod_slot2.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = quod_slot2.c; sourceTree = "<group>"; };
 		469EFDC9DB168FABBE9C16E5 /* QuodViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QuodViewController.m; sourceTree = "<group>"; };
+		48BEE9E8AD5981C6937E42CA /* quod_slot1.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = quod_slot1.c; sourceTree = "<group>"; };
 		4963A892CCD20869E6A90E83 /* Signing.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Signing.xcconfig; sourceTree = "<group>"; };
-		5A3B6B60982D895120888664 /* quod_slot0.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = quod_slot0.c; sourceTree = "<group>"; };
-		649356F34F4C032A1098A1D6 /* quod_slot2.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = quod_slot2.c; sourceTree = "<group>"; };
+		4D9C75E395C3D1D78CC19FB5 /* quod_slot0.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = quod_slot0.c; sourceTree = "<group>"; };
 		6A2C38AD0D312FB01AA07808 /* Quod.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Quod.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		73BA5A7EC0000DC7A82A804D /* LICENSE */ = {isa = PBXFileReference; path = LICENSE; sourceTree = "<group>"; };
-		7BD897B7048796931A1B2062 /* quod_slot6.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = quod_slot6.c; sourceTree = "<group>"; };
-		7C48C0998A3A0DE9F281D050 /* quod_slot1.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = quod_slot1.c; sourceTree = "<group>"; };
 		7F62A862A10571E0E1A6DBD0 /* QuodAU.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = QuodAU.entitlements; sourceTree = "<group>"; };
-		86C10AC1D35392AF4D1CA346 /* quod_resample.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = quod_resample.c; sourceTree = "<group>"; };
-		8C889D827296F491483F4F2F /* quod_engine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = quod_engine.h; sourceTree = "<group>"; };
+		89573B5301B84AFA33DA02C1 /* quod_slot7.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = quod_slot7.c; sourceTree = "<group>"; };
 		9E2428583CD568ABC72FB7E5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		A6F110683FFC6DC99F9CC1E2 /* quod_resample.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = quod_resample.h; sourceTree = "<group>"; };
-		B95D7788783FB97FBC00A8C5 /* quod_slot3.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = quod_slot3.c; sourceTree = "<group>"; };
-		BA73C823408245A6712E8E15 /* quod_slot7.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = quod_slot7.c; sourceTree = "<group>"; };
+		AD896238F8477F759B6FDD22 /* quod_resample.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = quod_resample.c; sourceTree = "<group>"; };
+		B94A1A8A00B34D7088F3DB3D /* quod_resample.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = quod_resample.h; sourceTree = "<group>"; };
 		C6834719FBAD31E84EDB17DD /* QuodAU.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = QuodAU.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		CCEF5DDFDB03F208904C4650 /* Quod.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Quod.entitlements; sourceTree = "<group>"; };
-		DC0D3B7C084B4E7AD8E6E1BA /* quod_slot4.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = quod_slot4.c; sourceTree = "<group>"; };
+		D0074771D21035BB72DD790D /* quod_slot5.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = quod_slot5.c; sourceTree = "<group>"; };
 		E1A1B7E16AA89FA6916740EA /* UnifrakturMaguntia-OFL.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "UnifrakturMaguntia-OFL.txt"; sourceTree = "<group>"; };
+		E367E6AC35C8967E1400B10E /* quod_engine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = quod_engine.h; sourceTree = "<group>"; };
 		FD0948ABF4C92E8C734D1654 /* THIRD-PARTY-NOTICES.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "THIRD-PARTY-NOTICES.md"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -134,12 +136,33 @@
 			children = (
 				7F948E2A861A6C05C63ED0B0 /* App */,
 				D82D815E7CBE160524C6684B /* apple */,
-				CA2B4396B59918AFDF3E2A11 /* Engine */,
+				8961349D137F4ED308DADB35 /* engine */,
 				F37590380EE87E64FC9A4C2A /* Extension */,
 				59708C4CC343E66B45F7A08E /* fonts */,
 				511E8E7928B4DEA720A25D53 /* quod */,
 				8E3C550E78894995061BAD4E /* Products */,
 			);
+			sourceTree = "<group>";
+		};
+		8961349D137F4ED308DADB35 /* engine */ = {
+			isa = PBXGroup;
+			children = (
+				06BDD362DFBC42E0DC00A59A /* quod_clock.c */,
+				E367E6AC35C8967E1400B10E /* quod_engine.h */,
+				AD896238F8477F759B6FDD22 /* quod_resample.c */,
+				B94A1A8A00B34D7088F3DB3D /* quod_resample.h */,
+				4D9C75E395C3D1D78CC19FB5 /* quod_slot0.c */,
+				48BEE9E8AD5981C6937E42CA /* quod_slot1.c */,
+				4018F726A05019972932A91F /* quod_slot2.c */,
+				3376A7BD8F13188AF3F68D08 /* quod_slot3.c */,
+				0F3FD3D5CFCE8ECDD3E22263 /* quod_slot4.c */,
+				D0074771D21035BB72DD790D /* quod_slot5.c */,
+				060872BDFD301EC79CB359DD /* quod_slot6.c */,
+				89573B5301B84AFA33DA02C1 /* quod_slot7.c */,
+				1E2961E499D5592A3EE77D66 /* quod_slots.c */,
+			);
+			name = engine;
+			path = ../engine;
 			sourceTree = "<group>";
 		};
 		8E3C550E78894995061BAD4E /* Products */ = {
@@ -149,25 +172,6 @@
 				C6834719FBAD31E84EDB17DD /* QuodAU.appex */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		CA2B4396B59918AFDF3E2A11 /* Engine */ = {
-			isa = PBXGroup;
-			children = (
-				8C889D827296F491483F4F2F /* quod_engine.h */,
-				86C10AC1D35392AF4D1CA346 /* quod_resample.c */,
-				A6F110683FFC6DC99F9CC1E2 /* quod_resample.h */,
-				5A3B6B60982D895120888664 /* quod_slot0.c */,
-				7C48C0998A3A0DE9F281D050 /* quod_slot1.c */,
-				649356F34F4C032A1098A1D6 /* quod_slot2.c */,
-				B95D7788783FB97FBC00A8C5 /* quod_slot3.c */,
-				DC0D3B7C084B4E7AD8E6E1BA /* quod_slot4.c */,
-				005A0B5E12093EC3616C8C72 /* quod_slot5.c */,
-				7BD897B7048796931A1B2062 /* quod_slot6.c */,
-				BA73C823408245A6712E8E15 /* quod_slot7.c */,
-				400A0F795F2EA289D96AA848 /* quod_slots.c */,
-			);
-			path = Engine;
 			sourceTree = "<group>";
 		};
 		D82D815E7CBE160524C6684B /* apple */ = {
@@ -279,16 +283,17 @@
 				E9DBD36372B8F86202772887 /* QuodAudioUnit.m in Sources */,
 				E31A59926A49B59534E32DA5 /* QuodPanelView.m in Sources */,
 				B1F4F94653B65864DD8B50B1 /* QuodViewController.m in Sources */,
-				59E2C507B3E6E4E9573337E2 /* quod_resample.c in Sources */,
-				0F225D76FDA4823A7D90113B /* quod_slot0.c in Sources */,
-				702CE8D55C462CBBD33D4E44 /* quod_slot1.c in Sources */,
-				C6A78EEDDEFB142AC20B1A6A /* quod_slot2.c in Sources */,
-				297879FD64923D220B03DA16 /* quod_slot3.c in Sources */,
-				7D5F3B4D0F35222FDA9C735E /* quod_slot4.c in Sources */,
-				14846A0A19058CAAAD45834A /* quod_slot5.c in Sources */,
-				BC315D5C27286955F1386D6A /* quod_slot6.c in Sources */,
-				7ECCBBDBDBE1E7A9D174A04B /* quod_slot7.c in Sources */,
-				E072D2F2DFDB5173CD2EAA9B /* quod_slots.c in Sources */,
+				42D51BF5076829B0C2B62654 /* quod_clock.c in Sources */,
+				D3588D5FCAA88471CB1A2B98 /* quod_resample.c in Sources */,
+				0E08A1667D08093A3B80797E /* quod_slot0.c in Sources */,
+				03D640FC2FDACE1B851F5EA2 /* quod_slot1.c in Sources */,
+				F69F7A12DFE7515CF380DBBC /* quod_slot2.c in Sources */,
+				C8203B45C94D5C37BA2723A7 /* quod_slot3.c in Sources */,
+				F2E7C75B2D0EFF028CAD16B2 /* quod_slot4.c in Sources */,
+				3AACC48FA27F708683210D18 /* quod_slot5.c in Sources */,
+				F41724521404A7498201401F /* quod_slot6.c in Sources */,
+				83CE552325ACE74974800D9E /* quod_slot7.c in Sources */,
+				C6875E2B00AFA3ADDEC1254D /* quod_slots.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -385,7 +390,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 0.1.0;
+				MARKETING_VERSION = 0.2.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -404,7 +409,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_OPTIMIZATION_LEVEL = 2;
 				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/Engine",
+					"$(SRCROOT)/../engine",
 					"$(SRCROOT)/../src",
 					"$(SRCROOT)/../gen",
 				);
@@ -471,7 +476,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 0.1.0;
+				MARKETING_VERSION = 0.2.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -506,7 +511,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_OPTIMIZATION_LEVEL = 2;
 				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/Engine",
+					"$(SRCROOT)/../engine",
 					"$(SRCROOT)/../src",
 					"$(SRCROOT)/../gen",
 				);

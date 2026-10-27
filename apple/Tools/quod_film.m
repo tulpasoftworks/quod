@@ -2,8 +2,8 @@
 // A film of the Audio Unit, offline: QuodAudioUnit's own render block at a host's rate and its panel (QuodPanelView)
 // drawn every frame, as a WAV and PNGs; SHOWCASE pressed at 5 s. Copyright (c) 2026 Kip DeCastro. See ../../LICENSE.
 //
-//   cd apple && clang -fobjc-arc -O2 -IEngine -IExtension -I../src -I../gen Tools/quod_film.m Extension/QuodAudioUnit.m \
-//       Extension/QuodPanelView.m Engine/quod_slot[0-7].c Engine/quod_slots.c Engine/quod_resample.c \
+//   cd apple && clang -fobjc-arc -O2 -I../engine -IExtension -I../src -I../gen Tools/quod_film.m Extension/QuodAudioUnit.m \
+//       Extension/QuodPanelView.m ../engine/quod_slot[0-7].c ../engine/quod_slots.c ../engine/quod_resample.c ../engine/quod_clock.c \
 //       -framework Cocoa -framework AVFoundation -framework AudioToolbox -framework QuartzCore -o build/quod_film
 //   build/quod_film OUTDIR [SECONDS] [RATE]     -> OUTDIR/quod.wav, OUTDIR/f00000.png ... (30 a second)
 #import <Cocoa/Cocoa.h>

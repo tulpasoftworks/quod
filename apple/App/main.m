@@ -5,6 +5,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import <CoreAudioKit/CoreAudioKit.h>
 #import <CoreMIDI/CoreMIDI.h>
+#import <UniformTypeIdentifiers/UniformTypeIdentifiers.h>
 
 static const AudioComponentDescription QUOD = {kAudioUnitType_MusicDevice, 'Quod', 'Tlpa', 0, 0};
 
@@ -25,6 +26,7 @@ static const AudioComponentDescription QUOD = {kAudioUnitType_MusicDevice, 'Quod
                                           styleMask:NSWindowStyleMaskTitled | NSWindowStyleMaskClosable |
                                                     NSWindowStyleMaskMiniaturizable | NSWindowStyleMaskResizable
                                             backing:NSBackingStoreBuffered defer:NO];
+    [self menus];
     _window.title = @"Quod";
     _window.contentAspectRatio = NSMakeSize(520, 880);
     [_window center];
@@ -91,6 +93,57 @@ static const AudioComponentDescription QUOD = {kAudioUnitType_MusicDevice, 'Quod
 - (void)connectSources
 {
     for (ItemCount i = 0; i < MIDIGetNumberOfSources(); i++) MIDIPortConnectSource(_in, MIDIGetSource(i), NULL);
+}
+
+// ---- File: a .quodstate file (an FM-1 backup: the FM-1's, the browser's and the plug-in's are the same)
+- (void)menus
+{
+    NSMenu *bar = [NSMenu new], *app = [NSMenu new], *file = [[NSMenu alloc] initWithTitle:@"File"];
+    [app addItemWithTitle:@"About Quod" action:@selector(orderFrontStandardAboutPanel:) keyEquivalent:@""];
+    [app addItem:[NSMenuItem separatorItem]];
+    [app addItemWithTitle:@"Quit Quod" action:@selector(terminate:) keyEquivalent:@"q"];
+    [file addItemWithTitle:@"Open State\u2026" action:@selector(openState:) keyEquivalent:@"o"];
+    [file addItemWithTitle:@"Save State\u2026" action:@selector(saveState:) keyEquivalent:@"s"];
+    [[bar addItemWithTitle:@"" action:nil keyEquivalent:@""] setSubmenu:app];
+    [[bar addItemWithTitle:@"File" action:nil keyEquivalent:@""] setSubmenu:file];
+    NSApp.mainMenu = bar;
+}
+
+- (void)say:(NSString *)what
+{
+    NSAlert *a = [NSAlert new];
+    a.messageText = what;
+    [a beginSheetModalForWindow:_window completionHandler:nil];
+}
+
+- (void)saveState:(id)sender
+{
+    NSData *b = _unit.AUAudioUnit.fullState[@"quodBackup"];
+    if (![b isKindOfClass:[NSData class]]) return;
+    NSSavePanel *p = [NSSavePanel savePanel];
+    p.nameFieldStringValue = @"quod.quodstate";
+    p.allowedContentTypes = @[[UTType typeWithFilenameExtension:@"quodstate"] ?: UTTypeData];
+    [p beginSheetModalForWindow:_window completionHandler:^(NSModalResponse r) {
+        if (r == NSModalResponseOK && ![b writeToURL:p.URL atomically:YES]) [self say:@"The state wasn't saved."];
+    }];
+}
+
+- (void)openState:(id)sender
+{
+    if (!_unit) return;
+    NSOpenPanel *p = [NSOpenPanel openPanel];
+    p.allowedContentTypes = @[[UTType typeWithFilenameExtension:@"quodstate"] ?: UTTypeData];
+    [p beginSheetModalForWindow:_window completionHandler:^(NSModalResponse r) {
+        if (r != NSModalResponseOK) return;
+        NSData *b = [NSData dataWithContentsOfURL:p.URL];
+        NSMutableDictionary *d = [self->_unit.AUAudioUnit.fullState mutableCopy];
+        if (!b || !d) return;
+        [d removeObjectForKey:@"quod"];     // (the unit takes a backup when there is no state of its own)
+        d[@"quodBackup"] = b;
+        self->_unit.AUAudioUnit.fullState = d;
+        if (![self->_unit.AUAudioUnit.fullState[@"quodBackup"] isEqual:b])
+            [self say:@"That isn't a Quod state file of this version, or it is damaged."];
+    }];
 }
 
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)a { return YES; }

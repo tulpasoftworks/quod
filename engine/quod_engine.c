@@ -3,10 +3,14 @@
  * QE_SLOT set (quod_slots.c). Everything runs on the render thread, a millisecond at a time as on the FM-1: the
  * physics, the main loop (input, sequencer, the screen into a frame buffer), and each 256-frame block when due.
  * The UI's thread only sets inputs and reads the screen and the LEDs.
- * Copyright (c) 2026 Kip DeCastro. See ../../LICENSE. */
+ * Copyright (c) 2026 Kip DeCastro. See ../LICENSE. */
 #include <stdint.h>
+#if defined(__wasm__) && !defined(__wasi__)     /* (no libc: the compiler's own, which the Rust crate's runtime backs) */
+#define memcpy __builtin_memcpy
+#define memset __builtin_memset
+#else
 #include <string.h>
-#include <time.h>
+#endif
 #include "quod_engine.h"
 
 #ifndef QE_SLOT
@@ -84,7 +88,7 @@ static void q_lcd_blit(uint32_t x, uint32_t y, uint32_t w, uint32_t h, const uin
         memcpy(fb + (y + j) * QUOD_W + x, px + j * w, (x + w <= QUOD_W ? w : QUOD_W - x) * sizeof *px);
     fb_seq++;
 }
-static uint32_t q_ticks(void) { return (uint32_t)(clock_gettime_nsec_np(CLOCK_UPTIME_RAW) / 1000u); }
+static uint32_t q_ticks(void) { return (uint32_t)quod_clock_us(); }
 #define Q_TICKS_PER_US 1u
 static void q_premaster(int on) { (void)on; }
 static void q_usb_stats(uint32_t v[10]) { memset(v, 0, 10 * sizeof *v); }
@@ -191,11 +195,9 @@ static void e_key(uint32_t k, int down)
 }
 static void e_enc(uint32_t e, int32_t d)        /* (the times first: a take that sees the turn sees its times) */
 {
-    struct timespec ts;
     uint32_t ms;
     if (e >= 7u) return;
-    clock_gettime(CLOCK_MONOTONIC, &ts);
-    ms = (uint32_t)((uint64_t)ts.tv_sec * 1000u + (uint64_t)ts.tv_nsec / 1000000u);
+    ms = (uint32_t)(quod_clock_us() / 1000u);
     if (!__atomic_load_n(&ui_enc[e], __ATOMIC_ACQUIRE)) __atomic_store_n(&ui_enc_ms0[e], ms, __ATOMIC_RELEASE);
     __atomic_store_n(&ui_enc_ms[e], ms, __ATOMIC_RELEASE);
     __atomic_fetch_add(&ui_enc[e], d, __ATOMIC_ACQ_REL);
@@ -213,8 +215,41 @@ static int32_t e_enc_level(uint32_t e, int *lock)
     return knob_level(e, lock);
 }
 
+#define BK_MAGIC 0x59474E44u                    /* "DNGY", as the FM-1's settings sector has it */
+static uint32_t bk_crc32(const uint8_t *p, uint32_t n)
+{
+    uint32_t c = 0xFFFFFFFFu, k;
+    while (n--) {
+        c ^= *p++;
+        for (k = 0; k < 8u; k++) c = c & 1u ? (c >> 1) ^ 0xEDB88320u : c >> 1;
+    }
+    return ~c;
+}
+static void bk_put32(uint8_t *p, uint32_t v) { p[0] = (uint8_t)v; p[1] = (uint8_t)(v >> 8); p[2] = (uint8_t)(v >> 16); p[3] = (uint8_t)(v >> 24); }
+static uint32_t bk_get32(const uint8_t *p) { return p[0] | (uint32_t)p[1] << 8 | (uint32_t)p[2] << 16 | (uint32_t)p[3] << 24; }
+static uint32_t e_backup_get(void *buf, uint32_t cap)
+{
+    uint8_t *b = buf;
+    if (cap < 12u + sizeof st) return 0;
+    memcpy(b + 12, &st, sizeof st);
+    bk_put32(b, BK_MAGIC);
+    bk_put32(b + 4, sizeof st);
+    bk_put32(b + 8, bk_crc32(b + 12, sizeof st));
+    return 12u + sizeof st;
+}
+static int e_backup_set(const void *buf, uint32_t n)
+{
+    const uint8_t *b = buf;
+    if (n < 16u || bk_get32(b) != BK_MAGIC || bk_get32(b + 4) != n - 12u) return -1;
+    if (bk_crc32(b + 12, n - 12u) != bk_get32(b + 8)) return -2;
+    if (n - 12u != sizeof st || bk_get32(b + 12) != STORE_VER) return -3;
+    memcpy(&st, b + 12, sizeof st);
+    return 0;
+}
+_Static_assert(12u + sizeof st <= QUOD_BACKUP_MAX, "QUOD_BACKUP_MAX");
+
 #define QE_CAT2(a, b) a##b
 #define QE_CAT(a, b) QE_CAT2(a, b)
 const quod_slot_t QE_CAT(quod_slot_, QE_SLOT) = {
     e_init, e_render, e_midi, e_param_count, e_param_name, e_param_range, e_param_get, e_param_set,
-    e_state_get, e_state_set, e_button, e_key, e_enc, e_screen, e_leds, e_enc_name, e_enc_level};
+    e_state_get, e_state_set, e_button, e_key, e_enc, e_screen, e_leds, e_enc_name, e_enc_level, e_backup_get, e_backup_set};
