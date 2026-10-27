@@ -12,7 +12,7 @@ PKG="${2:-fm1/build/quod.fwsc}"
 VER="${3:-dev}"
 cargo build -q -p quod-wasm --target wasm32-unknown-unknown --release
 rm -rf "$OUT" && mkdir -p "$OUT/fm1" "$OUT/fonts" "$OUT/licences"
-cp web/index.html web/app.js web/worklet.js web/flash.js web/link.js web/trade.js web/stage.js "$OUT/"
+cp web/index.html web/app.js web/worklet.js web/flash.js web/link.js web/trade.js web/stage.js web/song.js "$OUT/"
 cp target/wasm32-unknown-unknown/release/quod_wasm.wasm "$OUT/quod.wasm"
 cp fm1/web/fm1ota.js fm1/web/fm1pkg.js fm1/web/quodflash.js "$OUT/fm1/"
 cp art/fonts/UnifrakturMaguntia-Book.ttf "$OUT/fonts/"

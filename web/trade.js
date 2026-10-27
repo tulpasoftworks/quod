@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2026 Kip DeCastro. See ../LICENSE.
 //
-// The trade ([ LINK ], link.js), drawn at a Game Boy's 160 x 144 in its four greys and one red, on a canvas the page
+// The trade ([ LINK ], link.js), drawn at 160 x 144 in four greys and one red, on a canvas the page
 // scales up. The settings gather out of the ether into an orb (heaven above, hell below) on the sending screen; the
 // link cable, a ringed pipe hanging over it, sucks the orb up; it rides the pipe up, across (the view following) and
 // down; it waits at the far mouth until the transfer has settled, drops onto the receiving screen and is absorbed.
@@ -21,7 +21,7 @@ export function setupTrade(canvas, sim) {       // the canvas, and the sim's scr
 // ---- drawing
 function px(x, y, w, h, c) { g.fillStyle = c; g.fillRect(Math.round(x), Math.round(y), w, h); }
 function image(img, x, y, w, h) { if (!img) return; g.imageSmoothingEnabled = true; g.drawImage(img, x, y, w, h); g.imageSmoothingEnabled = false; }
-function frameBox(x, y, w, h) {                 // a text box's double edge, as a Game Boy draws one
+function frameBox(x, y, w, h) {                 // a text box's double edge
   px(x, y, w, h, K.black); px(x + 1, y + 1, w - 2, h - 2, K.white);
   px(x + 2, y + 2, w - 4, h - 4, K.black); px(x + 3, y + 3, w - 6, h - 6, K.white);
 }
@@ -367,7 +367,7 @@ export function choose() {
     cv.addEventListener("keydown", key);
   });
 }
-// after a trade: on with a click (or Enter), as a Game Boy waits for A
+// after a trade: on with a click (or Enter), as a handheld waits for its button
 export function next() {
   const cv = g.canvas;
   return new Promise((resolve) => {

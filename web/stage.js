@@ -3,7 +3,7 @@
 //
 // Over the sim's screen: how [ FLASH ] (flash.js) and [ LINK ] (link.js) open and close. Raising one fades the sim's
 // sound out over a second, brings the panel into view, places the dialog over the screen (as wide as the screen; a
-// Game Boy window in its middle, a panel from its top) and fades it in with the page dimmed behind it. Lowering it
+// 160 x 144 window in its middle, a panel from its top) and fades it in with the page dimmed behind it. Lowering it
 // does the same backwards.
 import { fadeLink } from "./app.js";
 

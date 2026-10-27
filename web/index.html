@@ -56,6 +56,8 @@
   .source a { font: 600 18px/1.2 ui-monospace, Menlo, Consolas, monospace; letter-spacing: .08em; color: var(--fg);
               text-decoration: none; }           /* (as [ FLASH ] and [ LINK ]) */
   .source a:hover { color: #fff; }
+  .source .maker { margin: 8px 0 0; }
+  .source .maker a { font: 400 13px/1.2 ui-monospace, Menlo, Consolas, monospace; letter-spacing: .06em; color: var(--dim); }
   .ver { margin: 10px 0 0; font-size: 11px; letter-spacing: .1em; color: var(--dim); }   /* (as GLO held shows it) */
   .source a:focus-visible { outline: 2px solid #f2bf40; outline-offset: 3px; }
   .small { font-size: 13px; color: var(--dim); }
@@ -103,7 +105,7 @@
   #flash-dialog .dlg { background: var(--card); border: 1px solid var(--line); border-radius: 10px;
                        box-shadow: 0 20px 60px rgba(0, 0, 0, .6); }
   #ln-canvas { display: block; width: 100%; aspect-ratio: 10 / 9; image-rendering: pixelated; background: #fff;
-               border-radius: 4px; cursor: pointer; box-shadow: 0 20px 60px rgba(0, 0, 0, .6); }   /* (a Game Boy's screen: 160 x 144) */
+               border-radius: 4px; cursor: pointer; box-shadow: 0 20px 60px rgba(0, 0, 0, .6); }   /* (160 x 144, in 8-bit pixels) */
   #ln-canvas:focus-visible { outline: 2px solid #f2bf40; outline-offset: 3px; }
   #ln-msg { position: absolute; left: 0; right: 0; top: 100%; margin-top: 10px; text-align: center; }
   .msg { min-height: 1.5em; margin: 6px 0 0; color: var(--dim); }
@@ -150,6 +152,7 @@
     </section>
     <section class="small source">
       <a href="https://github.com/tulpasoftworks/quod">[ source ]</a>
+      <p class="maker"><a href="https://tulpasoftworks.com">tulpasoftworks.com</a></p>
       <p class="ver">QUOD __QUOD_VERSION__</p>
     </section>
   </aside>

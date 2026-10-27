@@ -222,7 +222,8 @@ the page dimmed:
   FM-1 itself (its own checks, stopped before anything is written). Then it checks the FM-1 comes back as Quod. It
   installs the official firmware back the same way.
 - **[ LINK ]** sends Quod's settings (a `.quodstate`) from the sim to an FM-1 running Quod, or from the FM-1 to the
-  sim, drawn as a trade in a Game Boy's window (`web/trade.js`, its two machines as pixel art).
+  sim, drawn as a trade in a small 8-bit window (`web/trade.js`, its two machines as pixel art), with an 8-bit song
+  while it runs (`web/song.js`).
 
 Every release carries this site with its firmware as `quod-site.zip`, ready for any static host; the latest is at
 https://github.com/tulpasoftworks/quod/releases/latest/download/quod-site.zip. CI builds the same for every push
