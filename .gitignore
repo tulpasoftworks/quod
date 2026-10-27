@@ -13,3 +13,6 @@ apple/Local.xcconfig
 fm1/build/
 fm1/firmware/shared/
 fm1/.venv
+# Rust (the core, the browser's, the plug-in) and the browser's site
+target/
+web/dist/
